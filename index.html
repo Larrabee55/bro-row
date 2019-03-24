@@ -8,14 +8,65 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <link rel="stylesheet" href="./assets/css/reset.css">
+    <!-- materialize link -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https:/stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- <link rel="stylesheet" href="https:/stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> -->
     <link rel="stylesheet" href="./assets/css/style.css">
 </head>
 
 <body>
-    <h2>Bro Row</h2>
+    <div class="container">
+        <!-- Title -->
+        <div class="row">
+            <div class="col m12 blue lighten-1 center-align">
+                <h2>Cuisine Me</h2>
+            </div>
+        </div>
+
+        <div class="row purple">
+            <!-- Zip Code enter -->
+            <div class="col m2">
+                <form>
+                    <input id="search-zip" data-length="5" placeholder="Zip Code"></input>
+                </form>
+            </div>
+            <!-- submit button -->
+            <div class="col m3">
+                <form>
+                    <button class="btn waves-effect waves-light" type="submit" name="action">Submit</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="row orange">
+            <!-- dislike button -->
+            <div class="col m2" id="dislike">
+                <a class="btn-floating btn-large waves-effect waves-light red"><i
+                        class="material-icons center-align">close</i></a>
+            </div>
+            <!-- resurant image and button -->
+            <div class="col m8" id="resurant">
+                <h3 class="center-align">Put in your Zip Code</h3>
+            </div>
+            <!-- llike button -->
+            <div class="col m2 right-align" id="like">
+                <a class="btn-floating btn-large waves-effect waves-light green center-align"><i
+                        class="material-icons">check</i></a>
+            </div>
+        </div>
+        <!-- about cuisine me section -->
+        <div class="row">
+            <div class="col m12 green">
+                <h2>About Cuisine Me</h2>
+                <!-- add more writing -->
+                <h6>Cuisine Me is a great application for looking for new food in areas and deciding weather you would
+                    want to try them or not</h6>
+            </div>
+        </div>
+    </div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
