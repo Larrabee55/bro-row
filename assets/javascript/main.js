@@ -1,6 +1,6 @@
-var googleKey = "AIzaSyBLJrE6KEfUSM16_1CCc0W_QFNSWDbkkx0";
+var googleKey = "KEY";
 var nextPage;
-src="https://maps.googleapis.com/maps/api/js?key="+googleKey+"&libraries=places";
+src = "https://maps.googleapis.com/maps/api/js?key=" + googleKey + "&libraries=places";
 
 // * On Zip code input run API commands
 $("#submit").on("click", function (event) {
@@ -51,13 +51,13 @@ $("#submit").on("click", function (event) {
 var lat = "40.8911434";
 var long = "-111.8925837";
 
-var placesUrl = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=1500&type=restaurant&keyword=cruise&key=AIzaSyBLJrE6KEfUSM16_1CCc0W_QFNSWDbkkx0";
+var placesUrl = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=1500&type=restaurant&keyword=cruise&key=" + googleKey;
 
 service = new google.maps.places.PlacesService(map);
 service.nearbySearch(request, callback);
 
 $.ajax({
-    url: "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=1500&type=restaurant&keyword=cruise&key=AIzaSyBLJrE6KEfUSM16_1CCc0W_QFNSWDbkkx0",
+    url: "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=1500&type=restaurant&keyword=cruise&key=" + googleKey,
     type: 'GET',
     success: function (response) {
         console.log("TCL: response", response);
