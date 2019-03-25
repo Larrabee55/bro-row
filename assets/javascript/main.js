@@ -1,6 +1,7 @@
-var googleKey = "KEY";
-var nextPage;
-src = "https://maps.googleapis.com/maps/api/js?key=" + googleKey + "&libraries=places";
+var googleKey = "GOOGLEKEY";
+var lat;
+var long;
+// src = "https://maps.googleapis.com/maps/api/js?key=" + googleKey + "&libraries=places";
 
 // * On Zip code input run API commands
 $("#submit").on("click", function (event) {
@@ -8,6 +9,7 @@ $("#submit").on("click", function (event) {
     event.preventDefault();
     var zipCode = $("#search-zip").val();
     var locationUrl = "https://maps.googleapis.com/maps/api/geocode/json?address=" + zipCode + "&key=" + googleKey;
+
 
     //* API call for retrieving longitude and latitude from zip
     $.ajax({
@@ -20,24 +22,13 @@ $("#submit").on("click", function (event) {
 
 
 
-            var lat = response.results[0].geometry.location.lat;
+            lat = response.results[0].geometry.location.lat;
             console.log("TCL: lat", lat);
-            var long = response.results[0].geometry.location.lng;
+            long = response.results[0].geometry.location.lng;
             console.log("TCL: long", long);
-            var placesUrl = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + lat + "," + long + "&radius=5000&type=restaurant&googleKey=" + googleKey;
-            console.log("TCL: placesUrl", placesUrl);
 
-            // * API call for getting locations based off of longitude and latitude
-            // $.ajax({
-            //     method: "GET",
-            //     type: "json",
-            //     url: placesUrl,
-            //     // Accept: "*/*",
-            //     success: function (response) {
-            //         console.log("TCL: response", response);
+            initializeSearch();
 
-            //     }
-            // });
         },
 
         error: function (error) {
@@ -47,26 +38,50 @@ $("#submit").on("click", function (event) {
 });
 
 
-// *Testing out APIs in a separate spot to keep making progress
-var lat = "40.8911434";
-var long = "-111.8925837";
+// *Copied from "Find Places Nearby" https://developers.google.com/maps/documentation/javascript/places#place_search_requests
 
-var placesUrl = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=1500&type=restaurant&keyword=cruise&key=" + googleKey;
+var map;
+var service;
+var infowindow;
 
-service = new google.maps.places.PlacesService(map);
-service.nearbySearch(request, callback);
+function initializeSearch() {
+    var location = new google.maps.LatLng(lat, long);
 
-$.ajax({
-    url: "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=1500&type=restaurant&keyword=cruise&key=" + googleKey,
-    type: 'GET',
-    success: function (response) {
-        console.log("TCL: response", response);
-        nextPage = response.next_page_token;
-        console.log("TCL: nextPage", nextPage);
+    map = new google.maps.Map(document.getElementById('map'), {
+        center: location,
+        zoom: 15
+    });
 
-    },
-    error: function () {
-        alert('Failed!');
-    },
+    var request = {
+        location: location,
+        radius: '500',
+        type: ['restaurant']
+    };
 
-});
+    service = new google.maps.places.PlacesService(map);
+    service.nearbySearch(request, callback);
+}
+
+function callback(results, status) {
+    if (status == google.maps.places.PlacesServiceStatus.OK) {
+        for (var i = 0; i < results.length; i++) {
+            var place = results[i];
+            console.log("TCL: callback -> results[i]", results[i]);
+            console.log("TCL: callback -> results", results[i].name);
+
+            createMarker(results[i]);
+        }
+    }
+}
+
+function createMarker(place) {
+    var marker = new google.maps.Marker({
+        map: map,
+        position: place.geometry.location
+    });
+
+    google.maps.event.addListener(marker, 'click', function () {
+        infowindow.setContent(place.name);
+        infowindow.open(map, this);
+    });
+}
