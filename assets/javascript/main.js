@@ -1,4 +1,4 @@
-var googleKey = "GOOGLEKEY";
+var googleKey = "AIzaSyBLJrE6KEfUSM16_1CCc0W_QFNSWDbkkx0";
 var lat;
 var long;
 // src = "https://maps.googleapis.com/maps/api/js?key=" + googleKey + "&libraries=places";
@@ -68,8 +68,9 @@ function callback(results, status) {
             var place = results[i];
             console.log("TCL: callback -> results[i]", results[i]);
             console.log("TCL: callback -> results", results[i].name);
-
             createMarker(results[i]);
+
+            var name = place.name
         }
     }
 }
