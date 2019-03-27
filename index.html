@@ -36,7 +36,7 @@
             <!-- submit button -->
             <div class="col m3">
                 <form>
-                    <button class="btn waves-effect waves-light" type="submit" name="action">Submit</button>
+                    <button class="btn waves-effect waves-light" id="submit" type="submit" name="action">Submit</button>
                 </form>
             </div>
         </div>
@@ -44,17 +44,15 @@
         <div class="row orange">
             <!-- dislike button -->
             <div class="col m2" id="dislike">
-                <a class="btn-floating btn-large waves-effect waves-light red"><i
-                        class="material-icons center-align">close</i></a>
+                <a class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons center-align">close</i></a>
             </div>
             <!-- resurant image and button -->
-            <div class="col m8" id="resurant">
+            <div class="col m8" id="restaurant">
                 <h3 class="center-align">Put in your Zip Code</h3>
             </div>
             <!-- llike button -->
             <div class="col m2 right-align" id="like">
-                <a class="btn-floating btn-large waves-effect waves-light green center-align"><i
-                        class="material-icons">check</i></a>
+                <a class="btn-floating btn-large waves-effect waves-light green center-align"><i class="material-icons">check</i></a>
             </div>
         </div>
         <!-- about cuisine me section -->
@@ -68,6 +66,7 @@
         </div>
     </div>
     <!-- Optional JavaScript -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyATzNFSk5_9Cpbr5fHM64CqjmT8gXGs2dE&libraries=places"></script>
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="./assets/javascript/main.js"></script>
