@@ -1,4 +1,3 @@
-
 var googleKey = "AIzaSyBLJrE6KEfUSM16_1CCc0W_QFNSWDbkkx0";
 var lat;
 var long;
@@ -20,15 +19,11 @@ $("#submit").on("click", function (event) {
         type: "json",
         method: "GET",
         success: function (response) {
-            console.log("TCL: locationUrl", locationUrl);
-            console.log("TCL: response", response.results[0].geometry.location);
 
 
 
             lat = response.results[0].geometry.location.lat;
-            console.log("TCL: lat", lat);
             long = response.results[0].geometry.location.lng;
-            console.log("TCL: long", long);
 
             initializeSearch();
 
@@ -142,16 +137,54 @@ function callback(results, status) {
     if (status == google.maps.places.PlacesServiceStatus.OK) {
         for (var i = 0; i < results.length; i++) {
             var place = results[i];
-            console.log("TCL: callback -> results[i]", results[i]);
-            console.log("TCL: callback -> results", results[i].name);
-            
             createMarker(results[i]);
 
-            var placeId = results[i].place_id;
             var name = place.name
+
+            var placeId = results[i].place_id;
+            placeArr.push(placeId);
+
         }
     }
+    placeDetails(placeArr[restIndex]);
 }
+
+// *Location for current search results
+var placeArr = [];
+var likeArr = [];
+var dilikeArr = [];
+
+
+// *Get place details
+function placeDetails(place) {
+    var request = {
+        placeId: place,
+        fields: ['name', 'rating', 'formatted_phone_number', 'photos', 'website'],
+    };
+
+    service.getDetails(request, (place) => {
+
+        //////////////////////////////////
+        //* This is where we are going to grab all of the data and set it up on the screen
+        name = place.name;
+        rating = place.rating;
+        // phone = place.phone...;
+        // photo = place.photos....;
+        website = place.website;
+
+        displayRestaurant();
+    });
+};
+
+var name;
+var rating;
+var phone;
+var photo;
+var website;
+
+
+// todo set up process to cycle through the different place id
+
 
 function createMarker(place) {
     var marker = new google.maps.Marker({
@@ -166,15 +199,21 @@ function createMarker(place) {
 }
 
 var restIndex = 0;
+console.log("TCL: restIndex", restIndex);
+
+
 
 $("#dislike").on("click", function () {
     restIndex++;
     displayRestaurant();
-})
+});
 $("#like").on("click", function () {
+    ////// todo Need to finalize
+    likeArr.push(placeID);
+    
     restIndex++;
     displayRestaurant();
-})
+});
 
 function displayRestaurant() {
     $("#restaurant").empty();
@@ -182,7 +221,7 @@ function displayRestaurant() {
     $(".card").append("<div class='card-image'>");
     $(".card-image").append("<img id='image'>");
     $(".card-image").append("<span class='card-title'>");
-    $(".card-title").append(temp1[restIndex].name)
+    $(".card-title").append(name);
     $("#image").attr("src", temp1[restIndex].photos[0].html_attributions);
     $(".card").append("<div class='card-content'>");
     $(".card-content").append("<p> Resturant Rating: " + temp1[restIndex].price_level);
@@ -192,5 +231,3 @@ function displayRestaurant() {
 
 // $(".card-image").append(temp1[restIndex].photos.html_attributions)
 // console.log(temp1[restIndex].photos[0].html_attributions)
-
-displayRestaurant()
