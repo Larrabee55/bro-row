@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>Bro-Row?</title>
+    <title>CuisineMe</title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -28,17 +28,16 @@
 
         <div class="row purple">
             <!-- Zip Code enter -->
-            <div class="col m2">
-                <form>
-                    <input id="search-zip" data-length="5" placeholder="Zip Code"></input>
-                </form>
-            </div>
-            <!-- submit button -->
-            <div class="col m3">
-                <form>
-                    <button class="btn waves-effect waves-light" type="submit" name="action">Submit</button>
-                </form>
-            </div>
+
+            <form>
+                <div class="col m2">
+                    <input id="autocomplete" type="text" placeholder="Enter a City"></input>
+                </div>
+                <!-- submit button -->
+                <div class="col m3">
+                    <button id="submit" class="btn waves-effect waves-light" type="submit" name="action">Submit</button>
+                </div>
+            </form>
         </div>
 
         <div class="row orange">
@@ -56,22 +55,18 @@
                         <span class="card-title" id="restName">Card title</span>
                     </div>
                     <div class="card-content">
-                        <p>Description Since Truett Cathy opened his first restaurant in 1946, we have served quality
-                            food, made with care. We still carry with us this tremendous sense of responsibility and
-                            believe in being a force for good – especially when it comes to our chicken. That is why our
-                            customers can trust that chicken from Chick-fil-A will always mean three simple things.</p>
                     </div>
                 </div>
             </div>
             <!-- llike button -->
             <div class="col m2 right-align" id="like">
-                <a class="btn-floating btn-large waves-effect waves-light green center-align"><i
-                        class="material-icons">check</i></a>
+                <a class="btn-floating btn-large waves-effect waves-light green center-align"><i class="material-icons">check</i></a>
             </div>
         </div>
-        <!-- about cuisine me section -->
+        <!-- about cuisineme section -->
         <div class="row">
             <div class="col m12 green">
+
                 <h2>Your Liked Resturants</h2>
                 <!-- add more writing -->
                 <div class="row" id="liked-row">
@@ -79,9 +74,14 @@
                 </div>
             </div>
         </div>
+
+        <div id="map"></div>
     </div>
     <!-- Optional JavaScript -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyATzNFSk5_9Cpbr5fHM64CqjmT8gXGs2dE&libraries=places"></script>
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=GOOGLEKEY&libraries=places"></script>
+    <script src="https://apis.google.com/js/api.js" type="text/javascript"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="./assets/javascript/main.js"></script>
 </body>
