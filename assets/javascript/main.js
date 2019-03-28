@@ -1,4 +1,4 @@
-var googleKey = "AIzaSyBLJrE6KEfUSM16_1CCc0W_QFNSWDbkkx0";
+var googleKey = "GOOGLEKEY";
 var lat;
 var long;
 src = "https://maps.googleapis.com/maps/api/js?key=" + googleKey + "&libraries=places";
@@ -205,6 +205,7 @@ console.log("TCL: restIndex", restIndex);
 
 $("#dislike").on("click", function () {
     restIndex++;
+placeDetails(placeArr[restIndex]);
     displayRestaurant();
 });
 $("#like").on("click", function () {
@@ -212,6 +213,7 @@ $("#like").on("click", function () {
     likeArr.push(placeID);
     
     restIndex++;
+    placeDetails(placeArr[restIndex]);
     displayRestaurant();
 });
 
