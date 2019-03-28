@@ -1,3 +1,4 @@
+
 var googleKey = "GOOGLEKEY";
 var lat;
 var long;
@@ -161,3 +162,33 @@ function createMarker(place) {
         infowindow.open(map, this);
     });
 }
+
+var restIndex = 0
+
+$("#dislike").on("click", function () {
+    restIndex++
+    displayRestaurant();
+})
+$("#like").on("click", function () {
+    restIndex++
+    displayRestaurant();
+})
+
+function displayRestaurant() {
+    $("#restaurant").empty();
+    $("#restaurant").append("<div class='card'>");
+    $(".card").append("<div class='card-image'>");
+    $(".card-image").append("<img id='image'>");
+    $(".card-image").append("<span class='card-title'>");
+    $(".card-title").append(temp1[restIndex].name)
+    $("#image").attr("src", temp1[restIndex].photos[0].html_attributions);
+    $(".card").append("<div class='card-content'>");
+    $(".card-content").append("<p> Resturant Rating: " + temp1[restIndex].price_level);
+    $(".card-content").append("<p> Price: " + temp1[restIndex].rating);
+    console.log(temp1[restIndex].photos[0].html_attributions)
+}
+
+// $(".card-image").append(temp1[restIndex].photos.html_attributions)
+// console.log(temp1[restIndex].photos[0].html_attributions)
+
+displayRestaurant()
