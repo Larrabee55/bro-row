@@ -1,4 +1,5 @@
-var googleKey = "AIzaSyBLJrE6KEfUSM16_1CCc0W_QFNSWDbkkx0";
+
+var googleKey = "GOOGLEKEY";
 var lat;
 var long;
 src = "https://maps.googleapis.com/maps/api/js?key=" + googleKey + "&libraries=places";
@@ -13,21 +14,17 @@ $("#submit").on("click", function (event) {
   var locationUrl = "https://maps.googleapis.com/maps/api/geocode/json?address=" + zipCode + "&key=" + googleKey;
 
 
-  //* API call for retrieving longitude and latitude from zip
-  $.ajax({
-    url: locationUrl,
-    type: "json",
-    method: "GET",
-    success: function (response) {
-      console.log("TCL: locationUrl", locationUrl);
-      console.log("TCL: response", response.results[0].geometry.location);
+    //* API call for retrieving longitude and latitude from zip
+    $.ajax({
+        url: locationUrl,
+        type: "json",
+        method: "GET",
+        success: function (response) {
 
 
 
-      lat = response.results[0].geometry.location.lat;
-      console.log("TCL: lat", lat);
-      long = response.results[0].geometry.location.lng;
-      console.log("TCL: long", long);
+            lat = response.results[0].geometry.location.lat;
+            long = response.results[0].geometry.location.lng;
 
       initializeSearch();
 
@@ -138,24 +135,59 @@ function search() {
 }
 
 function callback(results, status) {
-  if (status == google.maps.places.PlacesServiceStatus.OK) {
-    for (var i = 0; i < results.length; i++) {
-      var place = results[i];
-      console.log("TCL: callback -> results[i]", results[i]);
-      console.log("TCL: callback -> results", results[i].name);
-      createMarker(results[i]);
 
-      var name = place.name
+    if (status == google.maps.places.PlacesServiceStatus.OK) {
+        for (var i = 0; i < results.length; i++) {
+            var place = results[i];
+            createMarker(results[i]);
 
-      var placeId = results[i].place_id;
-      placeArr.push(placeId);
-      console.log("TCL: callback -> placeArr", placeArr);
+            var name = place.name
+
+            var placeId = results[i].place_id;
+            placeArr.push(placeId);
+
+        }
     }
-  }
+    placeDetails(placeArr[restIndex]);
 }
 
 // *Location for current search results
 var placeArr = [];
+
+var likeArr = [];
+var dilikeArr = [];
+
+
+// *Get place details
+function placeDetails(place) {
+    var request = {
+        placeId: place,
+        fields: ['name', 'rating', 'formatted_phone_number', 'photos', 'website'],
+    };
+
+    service.getDetails(request, (place) => {
+
+        //////////////////////////////////
+        //* This is where we are going to grab all of the data and set it up on the screen
+        name = place.name;
+        rating = place.rating;
+        // phone = place.phone...;
+        // photo = place.photos....;
+        website = place.website;
+
+        displayRestaurant();
+    });
+};
+
+var name;
+var rating;
+var phone;
+var photo;
+var website;
+
+
+// todo set up process to cycle through the different place id
+
 
 function createMarker(place) {
   var marker = new google.maps.Marker({
@@ -169,7 +201,23 @@ function createMarker(place) {
   });
 }
 
-var restIndex = 0
+var restIndex = 0;
+console.log("TCL: restIndex", restIndex);
+
+
+$("#dislike").on("click", function () {
+    restIndex++;
+placeDetails(placeArr[restIndex]);
+    displayRestaurant();
+});
+$("#like").on("click", function () {
+    ////// todo Need to finalize
+    likeArr.push(placeID);
+    
+    restIndex++;
+    placeDetails(placeArr[restIndex]);
+    displayRestaurant();
+});
 
 function displayRestaurant() {
 
