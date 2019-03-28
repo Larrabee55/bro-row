@@ -144,8 +144,10 @@ function callback(results, status) {
             var place = results[i];
             console.log("TCL: callback -> results[i]", results[i]);
             console.log("TCL: callback -> results", results[i].name);
+            
             createMarker(results[i]);
 
+            var placeId = results[i].place_id;
             var name = place.name
         }
     }
