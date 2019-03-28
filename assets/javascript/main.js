@@ -163,14 +163,14 @@ function createMarker(place) {
     });
 }
 
-var restIndex = 0
+var restIndex = 0;
 
 $("#dislike").on("click", function () {
-    restIndex++
+    restIndex++;
     displayRestaurant();
 })
 $("#like").on("click", function () {
-    restIndex++
+    restIndex++;
     displayRestaurant();
 })
 
