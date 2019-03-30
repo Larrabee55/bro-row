@@ -1,4 +1,4 @@
-var googleKey = "KEY";
+var googleKey = "AIzaSyBLJrE6KEfUSM16_1CCc0W_QFNSWDbkkx0";
 var lat;
 var long;
 src = "https://maps.googleapis.com/maps/api/js?key=" + googleKey + "&libraries=places";
@@ -43,18 +43,6 @@ $("#submit").on("click", function (event) {
     var locationUrl = "https://maps.googleapis.com/maps/api/geocode/json?address=" + autocomplete + "&key=" + googleKey;
 
 
-
-
-
-    //* API call for retrieving longitude and latitude from zip
-    $.ajax({
-        url: locationUrl,
-        type: "json",
-        method: "GET",
-        success: function (response) {
-            console.log("TCL: locationUrl", locationUrl);
-            console.log("TCL: response", response.results[0].geometry.location);
-
     //* API call for retrieving longitude and latitude from zip
     $.ajax({
         url: locationUrl,
@@ -62,8 +50,8 @@ $("#submit").on("click", function (event) {
         method: "GET",
         success: function (response) {
 
-      lat = response.results[0].geometry.location.lat;
-      long = response.results[0].geometry.location.lng;
+            lat = response.results[0].geometry.location.lat;
+            long = response.results[0].geometry.location.lng;
 
             initializeSearch();
 
@@ -113,34 +101,34 @@ autocomplete.addListener('place_changed', onPlaceChanged);
 // *Copied from "Find Places Nearby" https://developers.google.com/maps/documentation/javascript/places#place_search_requests
 
 function initializeSearch() {
-  var location = new google.maps.LatLng(lat, long);
-  radius = 500;
-  restIndex = 0;
+    var location = new google.maps.LatLng(lat, long);
+    radius = 500;
+    restIndex = 0;
 
     tempArr = [];
     placeArr = [];
     $("#restaurant").empty();
 
-  map = new google.maps.Map(document.getElementById('map'), {
-    center: location,
-    zoom: 15
-  });
+    map = new google.maps.Map(document.getElementById('map'), {
+        center: location,
+        zoom: 15
+    });
 
-  var request = {
-    location: location,
-    radius: radius,
-    type: ['restaurant']
-  };
+    var request = {
+        location: location,
+        radius: radius,
+        type: ['restaurant']
+    };
 
-  service = new google.maps.places.PlacesService(map);
-  service.nearbySearch(request, callback);
+    service = new google.maps.places.PlacesService(map);
+    service.nearbySearch(request, callback);
 }
 
 var radius;
 var tempArr = [];
 
 function expandSearch() {
-  var location = new google.maps.LatLng(lat, long);
+    var location = new google.maps.LatLng(lat, long);
 
     for (var i = 0; i < placeArr.length; i++) {
         var element = placeArr[i];
@@ -155,18 +143,18 @@ function expandSearch() {
         zoom: 15
     });
 
-  var request = {
-    location: location,
-    radius: radius,
-    type: ['restaurant']
-  };
+    var request = {
+        location: location,
+        radius: radius,
+        type: ['restaurant']
+    };
 
     service = new google.maps.places.PlacesService(map);
     service.nearbySearch(request, callback);
 }
 
 $(document).on("click", ".expand", function () {
-  expandSearch();
+    expandSearch();
 });
 
 function onPlaceChanged() {
@@ -223,8 +211,8 @@ function callback(results, status) {
             var placeId = results[i].place_id;
             placeArr.push(placeId);
         }
+
     }
-  }
 
     for (var i = 0; i < placeArr.length; i++) {
         for (var j = 0; j < placeArr.length; j++) {
@@ -233,11 +221,9 @@ function callback(results, status) {
             }
         }
     }
-  }
-
-
     placeDetails(placeArr[restIndex]);
 }
+
 
 // *Location for current search results
 var placeArr = [];
@@ -286,27 +272,9 @@ function placeDetails(place) {
         address2 = place.address_components[1].short_name;
         address3 = place.address_components[2].short_name;
 
-  service.getDetails(request, (place) => {
-    console.log("TCL: placeDetails -> place", place);
-
-    //* This is where we are going to grab all of the data and set it up on the screen
-    name = place.name;
-    rating = place.rating;
-    if (place.formatted_phone_number) {
-      phone = place.formatted_phone_number;
-    }
-    photo = place.photos[0].getUrl({
-      'maxWidth': 300,
-      'maxHeight': 300
+        displayRestaurant();
     });
-    if (place.website) {
-      website = place.website;
-    }
-
-
-    displayRestaurant();
-  });
-};
+}
 
 
 // * Variables for displaying each search
@@ -347,46 +315,45 @@ function displayRestaurant() {
     var addressCombined = $("<div>").append(address1 + " ").append(address2 + ", ").append(address3);
     var rate = $("<div>").append("Rating: " + rating);
 
-  // todo would like for website to be an <a href> if possible
+    // todo would like for website to be an <a href> if possible
 
-  var aTag = $("<a>")
-  if (website) {
-    aTag.attr("href", website);
-    aTag.attr("target", "_blank");
-    aTag.text("Website")
-    // var web = $("<a href=" + website + ">Website</a>");
+    var aTag = $("<a>")
+    if (website) {
+        aTag.attr("href", website);
+        aTag.attr("target", "_blank");
+        aTag.text("Website")
+        // var web = $("<a href=" + website + ">Website</a>");
 
 
-  }
-  var number = $("<div>").append("Phone: " + phone);
+    }
+    var number = $("<div>").append("Phone: " + phone);
 
-  content.append(title).append(rate).append(aTag).append(number);
-  newDiv.append(pic).append(content);
-  $("#restaurant").append(newDiv);
+    content.append(title).append(rate).append(aTag).append(number);
+    newDiv.append(pic).append(content);
+    $("#restaurant").append(newDiv);
 
 
 }
 var likeIndex = 0;
 
 function likedDiv() {
-  $("#liked-row").append("<div class='col m4 newLiked" + likeIndex + " inner grid-item'>");
+    $("#liked-row").append("<div class='col m4 newLiked" + likeIndex + " inner grid-item'>");
     $(".liked" + likeIndex).appendTo(".newLiked" + likeIndex);
     $(".card").removeClass("liked");
     likeIndex++;
 }
 
 $(window).resize(function () {
-  var viewportWidth = $(window).width();
-  if (viewportWidth < 601) {
-    $("#like").removeClass("valign-wrapper").addClass("center-align");
-    $("#dislike").removeClass("valign-wrapper").addClass("center-align");
-  }
+    var viewportWidth = $(window).width();
+    if (viewportWidth < 601) {
+        $("#like").removeClass("valign-wrapper").addClass("center-align");
+        $("#dislike").removeClass("valign-wrapper").addClass("center-align");
+    }
 });
 $(window).resize(function () {
-  var viewportWidth = $(window).width();
-  if (viewportWidth > 600) {
-    $("#like").removeClass("center-align").addClass("valign-wrapper");
-    $("#dislike").removeClass("center-align").addClass("valign-wrapper");
-  }
+    var viewportWidth = $(window).width();
+    if (viewportWidth > 600) {
+        $("#like").removeClass("center-align").addClass("valign-wrapper");
+        $("#dislike").removeClass("center-align").addClass("valign-wrapper");
+    }
 });
-    
