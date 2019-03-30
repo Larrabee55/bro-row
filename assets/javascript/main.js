@@ -292,8 +292,6 @@ function displayRestaurant() {
 // Or search a different city
 var usersCity = false;
 
-}
-
 function likedDiv() {
     $("#liked-row").prepend("<div class='col m4 newLiked" + restIndex + "'>");
     $(".liked").appendTo(".newLiked" + restIndex);
