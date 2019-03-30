@@ -14,12 +14,19 @@ firebase.initializeApp(config);
 //firestore
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /{document=**} {
+    match /{document=userid} {
       allow read, write;
     }
   }
+
   //take user data from button click event to store into database
 
+  // update likes array
+  userid.update({
+'likes' 
+FieldValue. 
+arrayUnion ('')
+  })
 //likes to view in favorites page
 database.ref().on("child_added", function(childSnapshot) {
     console.log(childSnapshot.val());
