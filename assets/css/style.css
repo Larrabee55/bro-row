@@ -14,18 +14,19 @@ body {
   background-repeat: repeat;
 }
 
+
 #like {
-  height: 700px;
-  float: right;
+  height: 500px;
+  align-content: center;
 }
 
 #dislike {
-  height: 700px;
+  height: 500px;
   float: left;
 }
 
 .card .card-image {
-  height: 500px;
+  height: 300px;
   background-size: cover;
   position: relative;
 }

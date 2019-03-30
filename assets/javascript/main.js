@@ -24,7 +24,8 @@ $(document).on("click", "#like", function () {
     likedDiv();
     restIndex++;
     if (placeArr[restIndex] === undefined) {
-      $("#restaurant").empty().addClass("expand").append("<button> Keep searching?");
+      $("#restaurant").empty().addClass("expand col m6 center-align").append("<button id='keep'> Keep searching?");
+      $("#keep").attr("class", "btn waves-effect waves-dark grey");
     }
     placeDetails(placeArr[restIndex]);
   }
