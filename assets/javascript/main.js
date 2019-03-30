@@ -1,4 +1,4 @@
-var googleKey = "AIzaSyBLJrE6KEfUSM16_1CCc0W_QFNSWDbkkx0";
+var googleKey = "KEY";
 var lat;
 var long;
 
