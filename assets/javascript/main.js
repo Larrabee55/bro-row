@@ -1,4 +1,4 @@
-var googleKey = "GOOGLEKEY";
+var googleKey = "KEY";
 var lat;
 var long;
 
@@ -245,12 +245,16 @@ function placeDetails(place) {
         //* This is where we are going to grab all of the data and set it up on the screen
         name = place.name;
         rating = place.rating;
+        if (place.formatted_phone_number){
         phone = place.formatted_phone_number;
+        }
         photo = place.photos[0].getUrl({
             'maxWidth': 300,
             'maxHeight': 300
         });
+        if(place.website){
         website = place.website;
+        }
 
 
         displayRestaurant();
