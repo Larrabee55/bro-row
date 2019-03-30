@@ -1,47 +1,33 @@
-var googleKey = "GOOGLEKEY";
+var googleKey = "AIzaSyAI8r-ucedQnCXCVs6QfREqBVCV8JWzL7g";
 var lat;
 var long;
-
 src = "https://maps.googleapis.com/maps/api/js?key=" + googleKey + "&libraries=places";
-var noUsersCity = true;
 
-// * On location input run API commands
+// // * On Zip code input run API commands
 $("#submit").on("click", function (event) {
-  noUsersCity = false;
-  console.log(noUsersCity)
-  event.preventDefault();
- 
-  var autocomplete = $("#autocomplete").val().trim();
-  var locationUrl = "https://maps.googleapis.com/maps/api/geocode/json?address=" + autocomplete + "&key=" + googleKey;
-  
-  if (!noUsersCity) {
-    $("#dislike").on("click", function () {
-      $("#restaurant").empty();
-      restIndex++;
-      displayRestaurant();
-    });
-    $("#like").on("click", function () {
-      console.log(noUsersCity)
-      $("#restaurant").children(".card").addClass("liked");
-      likedDiv()
-      restIndex++;
-      displayRestaurant();
-    });
-  }
-  //* API call for retrieving longitude and latitude from zip
-  $.ajax({
-    url: locationUrl,
-    type: "json",
-    method: "GET",
-    success: function (response) {
+
+    event.preventDefault();
+    //     initializeSearch();
+    // });
+    var zipCode = $("#search-zip").val();
+    var locationUrl = "https://maps.googleapis.com/maps/api/geocode/json?address=" + zipCode + "&key=" + googleKey;
+
+
+    //* API call for retrieving longitude and latitude from zip
+    $.ajax({
+        url: locationUrl,
+        type: "json",
+        method: "GET",
+        success: function (response) {
+            console.log("TCL: locationUrl", locationUrl);
+            console.log("TCL: response", response.results[0].geometry.location);
 
 
 
-
-      lat = response.results[0].geometry.location.lat;
-      console.log("TCL: lat", lat);
-      long = response.results[0].geometry.location.lng;
-      console.log("TCL: long", long);
+            lat = response.results[0].geometry.location.lat;
+            console.log("TCL: lat", lat);
+            long = response.results[0].geometry.location.lng;
+            console.log("TCL: long", long);
 
             initializeSearch();
 
@@ -152,70 +138,17 @@ function search() {
 }
 
 function callback(results, status) {
-  if (status == google.maps.places.PlacesServiceStatus.OK) {
-    for (var i = 0; i < results.length; i++) {
-      createMarker(results[i]);
+    if (status == google.maps.places.PlacesServiceStatus.OK) {
+        for (var i = 0; i < results.length; i++) {
+            var place = results[i];
+            console.log("TCL: callback -> results[i]", results[i]);
+            console.log("TCL: callback -> results", results[i].name);
+            createMarker(results[i]);
 
-      var placeId = results[i].place_id;
-      placeArr.push(placeId);
+            var name = place.name
+        }
     }
-  }
-   placeDetails(placeArr[restIndex]);
 }
-
-// *Location for current search results
-var placeArr = [];
-
-function createMarker(place) {
-    var marker = new google.maps.Marker({
-        map: map,
-        position: place.geometry.location
-    });
-    // *Location for current search results
-
-   
-}
-
-
-// *Get place details
-function placeDetails(place) {
-    var request = {
-        placeId: place,
-        fields: ['name', 'rating', 'formatted_phone_number', 'photos', 'website', 'address_components'],
-    };
-
-    service.getDetails(request, (place) => {
-        console.log("TCL: placeDetails -> place", place);
-
-
-        //* This is where we are going to grab all of the data and set it up on the screen
-        name = place.name;
-        console.log("TCL: placeDetails -> name", name);
-        rating = place.rating;
-        console.log("TCL: placeDetails -> rating", rating);
-        phone = place.formatted_phone_number;
-        console.log("TCL: placeDetails -> phone", phone);
-        photo = place.photos[0];
-        console.log("TCL: placeDetails -> photo", photo);
-        website = place.website;
-        console.log("TCL: placeDetails -> website", website);
-
-        displayRestaurant();
-    });
-};
-
-
-// * Variables for displaying each search
-var name;
-var rating;
-var phone;
-var photo;
-var website;
-var likeArr = [];
-var dilikeArr = [];
-
-// todo Need address components
-
 
 function createMarker(place) {
     var marker = new google.maps.Marker({
@@ -229,54 +162,19 @@ function createMarker(place) {
     });
 }
 
-var restIndex = 0;
-console.log("TCL: restIndex", restIndex);
-
-
-$("#dislike").on("click", function () {
-    restIndex++;
-    placeDetails(placeArr[restIndex]);
-    displayRestaurant();
-});
-$("#like").on("click", function () {
-    ////// todo Need to finalize
-    likeArr.push(placeID);
-
-    restIndex++;
-    placeDetails(placeArr[restIndex]);
-    displayRestaurant();
-});
-
-// todo Need to work on displaying the content
+var restIndex = 0
 
 function displayRestaurant() {
 
-    $("#restaurant").empty();
-    var newDiv = $("<div>").addClass("card");
-    var pic = $("<div>").addClass("card-image").append(photo);
-    var title = $("<span>").addClass("card-title").append(name);
-    var content = $("<div>").addClass("card-content");
-    var rate = $("<div>").append("Rating: " + rating);
-
-    // todo would like for website to be an <a href> if possible
-
-    var web = $("<div>").append("Website: " + website);
-    var number = $("<div>").append("Phone: " + phone);
-
-    content.append(title).append(rate).append(web).append(number);
-    newDiv.append(pic).append(content);
-    $("#restaurant").append(newDiv);
-
-    // $("#restaurant").empty();
-    // $("#restaurant").append("<div class='card'>");
-    // $("#restaurant").children(".card").append("<div class='card-image'>");
-    // $("#restaurant").children(".card").children(".card-image").append(photo);
-    // $("#restaurant").children(".card").children(".card-image").append("<span class='card-title'>");
-    // $("#restaurant").children(".card").children(".card-image").children(".card-title").append(name)
-    // $("#image").attr(photo);
-    // $("#restaurant").children(".card").append("<div class='card-content'>");
-    // $("#restaurant").children(".card").children(".card-content").append("<p> Resturant Rating: " + rating);
-    // $("#restaurant").children(".card").children(".card-content").append("<a href=" + website + "><p> Website: " + website + "</p></a>");
+  $("#restaurant").append("<div class='card'>");
+  $("#restaurant").children(".card").append("<div class='card-image'>");
+  $("#restaurant").children(".card").children(".card-image").append("<img id='image'>");
+  $("#restaurant").children(".card").children(".card-image").append("<span class='card-title'>");
+  $("#restaurant").children(".card").children(".card-image").children(".card-title").append(temp1[restIndex].name)
+  $("#image").attr("src", "assets/css/2web.jpg");
+  $("#restaurant").children(".card").append("<div class='card-content'>");
+  $("#restaurant").children(".card").children(".card-content").append("<p> Resturant Rating: " + temp1[restIndex].rating);
+  $("#restaurant").children(".card").children(".card-content").append("<p> Price: " + temp1[restIndex].price_level);
 
 }
 
@@ -286,9 +184,29 @@ function displayRestaurant() {
 // Or search a different city
 var usersCity = false;
 
-function likedDiv() {
-    $("#liked-row").prepend("<div class='col m4 newLiked" + restIndex + "'>");
-    $(".liked").appendTo(".newLiked" + restIndex);
-    $(".card").removeClass("liked");
-
+if (!usersCity) {
+  $("#dislike").on("click", function () {
+    $("#restaurant").empty();
+    restIndex++;
+    displayRestaurant();
+  });
+  $("#like").on("click", function () {
+    $("#restaurant").children(".card").addClass("liked");
+    likedDiv()
+    restIndex++;
+    displayRestaurant();
+  });
 }
+
+
+
+
+function likedDiv() {
+  $("#liked-row").prepend("<div class='col m4 newLiked" + restIndex + "'>");
+  $(".liked").appendTo(".newLiked" + restIndex);
+  $(".card").removeClass("liked");
+}
+
+// $(".card-image").append(temp1[restIndex].photos.html_attributions)
+// console.log(temp1[restIndex].photos[0].html_attributions)
+
