@@ -1,29 +1,47 @@
-var googleKey = "GOOGLEKEY";
+var googleKey = "AIzaSyBLJrE6KEfUSM16_1CCc0W_QFNSWDbkkx0";
 var lat;
 var long;
 src = "https://maps.googleapis.com/maps/api/js?key=" + googleKey + "&libraries=places";
-
+var noUsersCity = true;
 // // * On Zip code input run API commands
 $("#submit").on("click", function (event) {
-
+  noUsersCity = false;
+  console.log(noUsersCity)
   event.preventDefault();
   //     initializeSearch();
   // });
   var zipCode = $("#search-zip").val();
   var locationUrl = "https://maps.googleapis.com/maps/api/geocode/json?address=" + zipCode + "&key=" + googleKey;
 
+  if (!noUsersCity) {
+    $("#dislike").on("click", function () {
+      $("#restaurant").empty();
+      restIndex++;
+      displayRestaurant();
+    });
+    $("#like").on("click", function () {
+      console.log(noUsersCity)
+      $("#restaurant").children(".card").addClass("liked");
+      likedDiv()
+      restIndex++;
+      displayRestaurant();
+    });
+  }
+  //* API call for retrieving longitude and latitude from zip
+  $.ajax({
+    url: locationUrl,
+    type: "json",
+    method: "GET",
+    success: function (response) {
+      console.log("TCL: locationUrl", locationUrl);
+      console.log("TCL: response", response.results[0].geometry.location);
 
-    //* API call for retrieving longitude and latitude from zip
-    $.ajax({
-        url: locationUrl,
-        type: "json",
-        method: "GET",
-        success: function (response) {
 
 
-
-            lat = response.results[0].geometry.location.lat;
-            long = response.results[0].geometry.location.lng;
+      lat = response.results[0].geometry.location.lat;
+      console.log("TCL: lat", lat);
+      long = response.results[0].geometry.location.lng;
+      console.log("TCL: long", long);
 
       initializeSearch();
 
@@ -134,70 +152,24 @@ function search() {
 }
 
 function callback(results, status) {
+  if (status == google.maps.places.PlacesServiceStatus.OK) {
+    for (var i = 0; i < results.length; i++) {
+      var place = results[i];
+      console.log("TCL: callback -> results[i]", results[i]);
+      console.log("TCL: callback -> results", results[i].name);
+      createMarker(results[i]);
 
-    if (status == google.maps.places.PlacesServiceStatus.OK) {
-        for (var i = 0; i < results.length; i++) {
-            var place = results[i];
-            createMarker(results[i]);
+      var name = place.name
 
-            var name = place.name
-
-            storedResultsArr.push(results[i])
-
-            var placeId = results[i].place_id;
-            placeArr.push(placeId);
-            console.log("TCL: callback -> placeArr", placeArr);
-        }
+      var placeId = results[i].place_id;
+      placeArr.push(placeId);
+      console.log("TCL: callback -> placeArr", placeArr);
     }
-    placeDetails(placeArr[restIndex]);
+  }
 }
 
-var storedResultsArr = []
 // *Location for current search results
 var placeArr = [];
-
-function createMarker(place) {
-    var marker = new google.maps.Marker({
-        map: map,
-        position: place.geometry.location
-    });
-// *Location for current search results
-
-var likeArr = [];
-var dilikeArr = [];
-
-
-
-// *Get place details
-function placeDetails(place) {
-    var request = {
-        placeId: place,
-        fields: ['name', 'rating', 'formatted_phone_number', 'photos', 'website'],
-    };
-
-    service.getDetails(request, (place) => {
-
-        //////////////////////////////////
-        //* This is where we are going to grab all of the data and set it up on the screen
-        name = place.name;
-        rating = place.rating;
-        // phone = place.phone...;
-        // photo = place.photos....;
-        website = place.website;
-
-        displayRestaurant();
-    });
-};
-
-var name;
-var rating;
-var phone;
-var photo;
-var website;
-
-
-// todo set up process to cycle through the different place id
-
 
 function createMarker(place) {
   var marker = new google.maps.Marker({
@@ -211,70 +183,30 @@ function createMarker(place) {
   });
 }
 
-var restIndex = 0;
-console.log("TCL: restIndex", restIndex);
-
-
-$("#dislike").on("click", function () {
-    restIndex++;
-placeDetails(placeArr[restIndex]);
-    displayRestaurant();
-});
-$("#like").on("click", function () {
-    ////// todo Need to finalize
-    likeArr.push(placeID);
-    
-    restIndex++;
-    placeDetails(placeArr[restIndex]);
-    displayRestaurant();
-});
+var restIndex = 0
 
 function displayRestaurant() {
 
-    $("#restaurant").append("<div class='card'>");
-    $("#restaurant").children(".card").append("<div class='card-image'>");
-    $("#restaurant").children(".card").children(".card-image").append("<img id='image'>");
-    $("#restaurant").children(".card").children(".card-image").append("<span class='card-title'>");
-    $("#restaurant").children(".card").children(".card-image").children(".card-title").append(storedResultsArr[i].name)
-    $("#image").attr("src=", results[i].photos[0].geturl());
-    $("#restaurant").children(".card").append("<div class='card-content'>");
-    $("#restaurant").children(".card").children(".card-content").append("<p> Resturant Rating: " + storedResultsArr[restIndex].rating);
-    $("#restaurant").children(".card").children(".card-content").append("<p> Price: " + temp1[restIndex].price_level);
+  $("#restaurant").append("<div class='card'>");
+  $("#restaurant").children(".card").append("<div class='card-image'>");
+  $("#restaurant").children(".card").children(".card-image").append("<img id='image'>");
+  $("#restaurant").children(".card").children(".card-image").append("<span class='card-title'>");
+  // add name
+  $("#restaurant").children(".card").children(".card-image").children(".card-title").append(temp1[restIndex].name)
+  $("#image").attr("src", "assets/css/2web.jpg");
+  $("#restaurant").children(".card").append("<div class='card-content'>");
+  // add ratting
+  $("#restaurant").children(".card").children(".card-content").append("<p> Resturant Rating: " + temp1[restIndex].rating);
+  // add website instead of price level
+  $("#restaurant").children(".card").children(".card-content").append("<p> Price: " + temp1[restIndex].price_level);
 
 }
-
-// submit button on click
-// usersCity = true
-// once out of place give option to grab more?
-// Or search a different city
-var usersCity = false;
-
-if (!usersCity) {
-    $("#dislike").on("click", function () {
-        $("#restaurant").empty();
-        restIndex++;
-        displayRestaurant();
-
-
-    });
-    $("#like").on("click", function () {
-        $("#restaurant").children(".card").addClass("liked");
-        likedDiv()
-        restIndex++;
-        displayRestaurant();
-
-
-    });
-}
-
-
-
 
 function likedDiv() {
-    $("#liked-row").prepend("<div class='col m4 newLiked" + restIndex + "'>");
-    $(".liked").appendTo(".newLiked" + restIndex);
-    $(".card").removeClass("liked");
-
+  $("#liked-row").prepend("<div class='col m4 newLiked" + restIndex + "'>");
+  $(".liked").appendTo(".newLiked" + restIndex);
+  $(".card").removeClass("liked");
 }
 
 // $(".card-image").append(temp1[restIndex].photos.html_attributions)
+// console.log(temp1[restIndex].photos[0].html_attributions)
