@@ -1,7 +1,7 @@
 #map {
   height: 425px;
   z-index: -1;
-  margin-top: -1000px;
+  margin-top: -5000px;
 }
 
 #cuisine-me {
@@ -10,5 +10,7 @@
 }
 
 body {
-  background-image: url(../images/graniteback.jpeg);
+  background-image: url(../images/background2.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
 }
