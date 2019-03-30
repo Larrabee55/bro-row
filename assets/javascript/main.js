@@ -1,4 +1,4 @@
-var googleKey = "KEY";
+var googleKey = "AIzaSyBLJrE6KEfUSM16_1CCc0W_QFNSWDbkkx0";
 var lat;
 var long;
 
@@ -272,6 +272,10 @@ var likeArr = [];
 var dilikeArr = [];
 
 // todo Need address components
+
+dbref.on("value", function () {
+    
+});
 
 
 function createMarker(place) {
