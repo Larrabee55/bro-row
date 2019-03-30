@@ -1,62 +1,78 @@
-var googleKey = "AIzaSyBLJrE6KEfUSM16_1CCc0W_QFNSWDbkkx0";
+var googleKey = "KEY";
 var lat;
 var long;
-
 src = "https://maps.googleapis.com/maps/api/js?key=" + googleKey + "&libraries=places";
-var noUsersCity = true;
+
+
+
+
+$(document).on("click", "#dislike", function () {
+    if (!noUsersCity) {
+        dilikeArr.push(name);
+        restIndex++;
+        if (placeArr[restIndex] === undefined) {
+            $("#restaurant").empty().addClass("expand").append("<button> Keep searching?");
+        }
+        placeDetails(placeArr[restIndex]);
+    }
+});
+$(document).on("click", "#like", function () {
+
+    if (!noUsersCity) {
+        $("#restaurant").children(".card").addClass("liked" + likeIndex);
+        likeArr.push(placeArr[restIndex]);
+        likedDiv();
+        restIndex++;
+        if (placeArr[restIndex] === undefined) {
+            $("#restaurant").empty().addClass("expand").append("<button> Keep searching?");
+        }
+        placeDetails(placeArr[restIndex]);
+    }
+});
+
 
 // * On location input run API commands
+// // * On Zip code input run API commands
+
 $("#submit").on("click", function (event) {
-  noUsersCity = false;
-  console.log(noUsersCity)
-  event.preventDefault();
 
-  var autocomplete = $("#autocomplete").val().trim();
-  var locationUrl = "https://maps.googleapis.com/maps/api/geocode/json?address=" + autocomplete + "&key=" + googleKey;
+    noUsersCity = false;
+    event.preventDefault();
 
-
-  if (!noUsersCity) {
-    $("#dislike").on("click", function () {
-      dilikeArr.push(name);
-      restIndex++;
-      console.log("TCL: placeArr[restIndex]", placeArr[restIndex]);
-      placeDetails(placeArr[restIndex]);
-      if (placeArr[restIndex] === undefined) {
-        $("#restaurant").empty().addClass("expand").append("<button> Keep searching?");
-      }
-    });
-    $("#like").on("click", function () {
-      $("#restaurant").children(".card").addClass("liked");
-      likeArr.push(placeArr[restIndex]);
-      likedDiv();
-      restIndex++;
-      console.log("TCL: placeArr[restIndex]", placeArr[restIndex]);
-      placeDetails(placeArr[restIndex]);
-      if (placeArr[restIndex] === undefined) {
-        $("#restaurant").empty().addClass("expand").append("<button> Keep searching?");
-      }
-    });
-  }
+    var autocomplete = $("#autocomplete").val().trim();
+    var locationUrl = "https://maps.googleapis.com/maps/api/geocode/json?address=" + autocomplete + "&key=" + googleKey;
 
 
-  //* API call for retrieving longitude and latitude from zip
-  $.ajax({
-    url: locationUrl,
-    type: "json",
-    method: "GET",
-    success: function (response) {
+
+
+
+    //* API call for retrieving longitude and latitude from zip
+    $.ajax({
+        url: locationUrl,
+        type: "json",
+        method: "GET",
+        success: function (response) {
+            console.log("TCL: locationUrl", locationUrl);
+            console.log("TCL: response", response.results[0].geometry.location);
+
+    //* API call for retrieving longitude and latitude from zip
+    $.ajax({
+        url: locationUrl,
+        type: "json",
+        method: "GET",
+        success: function (response) {
 
       lat = response.results[0].geometry.location.lat;
       long = response.results[0].geometry.location.lng;
 
-      initializeSearch();
+            initializeSearch();
 
-    },
+        },
 
-    error: function (error) {
-      console.log(error);
-    }
-  });
+        error: function (error) {
+            console.log(error);
+        }
+    });
 });
 
 
@@ -68,28 +84,28 @@ var map, places, infoWindow;
 var markers = [];
 var autocomplete;
 var countryRestrict = {
-  'country': 'us'
+    'country': 'us'
 };
 var MARKER_PATH = 'https://developers.google.com/maps/documentation/javascript/images/marker_green';
 var hostnameRegexp = new RegExp('^https?://.+?/');
 
 var countries = {
-  'us': {
-    center: {
-      lat: 37.1,
-      lng: -95.7
+    'us': {
+        center: {
+            lat: 37.1,
+            lng: -95.7
+        },
+        zoom: 3
     },
-    zoom: 3
-  },
 };
 
 autocomplete = new google.maps.places.Autocomplete(
-  /** @type {!HTMLInputElement} */
-  (
-    document.getElementById('autocomplete')), {
-    types: ['(cities)'],
-    componentRestrictions: countryRestrict
-  });
+    /** @type {!HTMLInputElement} */
+    (
+        document.getElementById('autocomplete')), {
+        types: ['(cities)'],
+        componentRestrictions: countryRestrict
+    });
 places = new google.maps.places.PlacesService(map);
 
 autocomplete.addListener('place_changed', onPlaceChanged);
@@ -101,7 +117,9 @@ function initializeSearch() {
   radius = 500;
   restIndex = 0;
 
-  tempArr = [];
+    tempArr = [];
+    placeArr = [];
+    $("#restaurant").empty();
 
   map = new google.maps.Map(document.getElementById('map'), {
     center: location,
@@ -124,16 +142,18 @@ var tempArr = [];
 function expandSearch() {
   var location = new google.maps.LatLng(lat, long);
 
-  tempArr = placeArr;
+    for (var i = 0; i < placeArr.length; i++) {
+        var element = placeArr[i];
+        tempArr.push(element);
+    }
 
-  radius += 250;
-  restIndex = 0;
-  console.log("TCL: expandSearch -> radius", radius);
+    radius += 250;
+    restIndex = 0;
 
-  map = new google.maps.Map(document.getElementById('map'), {
-    center: location,
-    zoom: 15
-  });
+    map = new google.maps.Map(document.getElementById('map'), {
+        center: location,
+        zoom: 15
+    });
 
   var request = {
     location: location,
@@ -141,8 +161,8 @@ function expandSearch() {
     type: ['restaurant']
   };
 
-  service = new google.maps.places.PlacesService(map);
-  service.nearbySearch(request, callback);
+    service = new google.maps.places.PlacesService(map);
+    service.nearbySearch(request, callback);
 }
 
 $(document).on("click", ".expand", function () {
@@ -150,83 +170,84 @@ $(document).on("click", ".expand", function () {
 });
 
 function onPlaceChanged() {
-  var place = autocomplete.getPlace();
-  if (place.geometry) {
-    map.panTo(place.geometry.location);
-    map.setZoom(15);
-    search();
-  } else {
-    document.getElementById('autocomplete').placeholder = 'Enter a city';
-  }
+    var place = autocomplete.getPlace();
+    if (place.geometry) {
+        map.panTo(place.geometry.location);
+        map.setZoom(15);
+        search();
+    } else {
+        document.getElementById('autocomplete').placeholder = 'Enter a city';
+    }
 }
 
 
 function search() {
-  var search = {
-    bounds: map.getBounds(),
-    types: ['restaurant']
-  };
+    var search = {
+        bounds: map.getBounds(),
+        types: ['restaurant']
+    };
 
-  places.nearbySearch(search, function (results, status) {
-    if (status === google.maps.places.PlacesServiceStatus.OK) {
-      clearResults();
-      clearMarkers();
-      // Create a marker for each hotel found, and
-      // assign a letter of the alphabetic to each marker icon.
-      for (var i = 0; i < results.length; i++) {
-        var markerLetter = String.fromCharCode('A'.charCodeAt(0) + (i % 26));
-        var markerIcon = MARKER_PATH + markerLetter + '.png';
-        // Use marker animation to drop the icons incrementally on the map.
-        markers[i] = new google.maps.Marker({
-          position: results[i].geometry.location,
-          animation: google.maps.Animation.DROP,
-          icon: markerIcon
-        });
-        // If the user clicks a hotel marker, show the details of that hotel
-        // in an info window.
-        markers[i].placeResult = results[i];
-        google.maps.event.addListener(markers[i], 'click', showInfoWindow);
-        setTimeout(dropMarker(i), i * 100);
-        addResult(results[i], i);
-      }
-    }
-  });
+    places.nearbySearch(search, function (results, status) {
+        if (status === google.maps.places.PlacesServiceStatus.OK) {
+            clearResults();
+            clearMarkers();
+            // Create a marker for each hotel found, and
+            // assign a letter of the alphabetic to each marker icon.
+            for (var i = 0; i < results.length; i++) {
+                var markerLetter = String.fromCharCode('A'.charCodeAt(0) + (i % 26));
+                var markerIcon = MARKER_PATH + markerLetter + '.png';
+                // Use marker animation to drop the icons incrementally on the map.
+                markers[i] = new google.maps.Marker({
+                    position: results[i].geometry.location,
+                    animation: google.maps.Animation.DROP,
+                    icon: markerIcon
+                });
+                // If the user clicks a hotel marker, show the details of that hotel
+                // in an info window.
+                markers[i].placeResult = results[i];
+                google.maps.event.addListener(markers[i], 'click', showInfoWindow);
+                setTimeout(dropMarker(i), i * 100);
+                addResult(results[i], i);
+            }
+        }
+    });
 }
 
 // todo Needs some work to be able to splice tempArr from placeArr
 
 function callback(results, status) {
-  if (status == google.maps.places.PlacesServiceStatus.OK) {
-    placeArr = [];
-    for (var i = 0; i < results.length; i++) {
-      createMarker(results[i]);
+    if (status == google.maps.places.PlacesServiceStatus.OK) {
+        for (var i = 0; i < results.length; i++) {
+            createMarker(results[i]);
 
-      var placeId = results[i].place_id;
-      placeArr.push(placeId);
+            var placeId = results[i].place_id;
+            placeArr.push(placeId);
+        }
     }
   }
 
-  for (var i = 0; i < placeArr.length; i++) {
-    for (var j = 0; j < placeArr.length; j++) {
-      if (tempArr[j] === placeArr[j]) {
-        placeArr.splice(j, 1);
-      }
+    for (var i = 0; i < placeArr.length; i++) {
+        for (var j = 0; j < placeArr.length; j++) {
+            if (tempArr[i] === placeArr[j]) {
+                placeArr.splice(j, 1);
+            }
+        }
     }
   }
 
-  console.log("TCL: callback -> placeArr", placeArr);
-  placeDetails(placeArr[restIndex]);
+
+    placeDetails(placeArr[restIndex]);
 }
 
 // *Location for current search results
 var placeArr = [];
 
 function createMarker(place) {
-  var marker = new google.maps.Marker({
-    map: map,
-    position: place.geometry.location
-  });
-  // *Location for current search results
+    var marker = new google.maps.Marker({
+        map: map,
+        position: place.geometry.location
+    });
+    // *Location for current search results
 
 
 }
@@ -234,10 +255,36 @@ function createMarker(place) {
 
 // *Get place details
 function placeDetails(place) {
-  var request = {
-    placeId: place,
-    fields: ['name', 'rating', 'formatted_phone_number', 'photos', 'website', 'address_components'],
-  };
+    var request = {
+        placeId: place,
+        fields: ['name', 'rating', 'formatted_phone_number', 'photos', 'website', 'address_components'],
+    };
+
+    service.getDetails(request, (place) => {
+
+        //* This is where we are going to grab all of the data and set it up on the screen
+        name = place.name;
+        rating = place.rating;
+        if (place.formatted_phone_number) {
+            phone = place.formatted_phone_number;
+        }
+        if (place.photos) {
+            photo = place.photos[0].getUrl({
+                'maxWidth': 300,
+                'maxHeight': 300
+            });
+        } else {
+            photo = "./assets/images/No_image_available.png";
+        }
+        if (place.website) {
+            website = place.website;
+        } else {
+            website = false;
+        }
+
+        address1 = place.address_components[0].short_name;
+        address2 = place.address_components[1].short_name;
+        address3 = place.address_components[2].short_name;
 
   service.getDetails(request, (place) => {
     console.log("TCL: placeDetails -> place", place);
@@ -268,37 +315,37 @@ var rating;
 var phone;
 var photo;
 var website;
+var address1;
+var address2;
+var address3;
 var likeArr = [];
 var dilikeArr = [];
 
-// todo Need address components
-
 
 function createMarker(place) {
-  var marker = new google.maps.Marker({
-    map: map,
-    position: place.geometry.location
-  });
+    var marker = new google.maps.Marker({
+        map: map,
+        position: place.geometry.location
+    });
 
-  google.maps.event.addListener(marker, 'click', function () {
-    infowindow.setContent(place.name);
-    infowindow.open(map, this);
-  });
+    google.maps.event.addListener(marker, 'click', function () {
+        infowindow.setContent(place.name);
+        infowindow.open(map, this);
+    });
 }
+
 
 var restIndex = 0;
 
-// todo Need to work on displaying the content
-
 function displayRestaurant() {
 
-  $("#restaurant").empty();
-  var newDiv = $("<div>").addClass("card");
-  var pic = $("<div>").addClass("card-image").append("<img src='" + photo + "' />");
-  var title = $("<span>").addClass("card-title").append(name);
-  var content = $("<div>").addClass("card-content").attr("style", "background-color:goldenrod");
-  var rate = $("<div>").append("Rating: " + rating);
-
+    $("#restaurant").empty();
+    var newDiv = $("<div>").addClass("card");
+    var pic = $("<div>").addClass("card-image").append("<img src='" + photo + "' />");
+    var title = $("<span>").addClass("card-title").append(name);
+    var content = $("<div>").addClass("card-content").attr("style", "background-color:goldenrod");
+    var addressCombined = $("<div>").append(address1 + " ").append(address2 + ", ").append(address3);
+    var rate = $("<div>").append("Rating: " + rating);
 
   // todo would like for website to be an <a href> if possible
 
@@ -317,11 +364,13 @@ function displayRestaurant() {
   newDiv.append(pic).append(content);
   $("#restaurant").append(newDiv);
 
+
 }
+var likeIndex = 0;
 
 function likedDiv() {
-  $("#liked-row").prepend("<div class='col m4 newLiked" + restIndex + " inner'>");
-  $(".liked").appendTo(".newLiked" + restIndex);
-  $(".card").removeClass("liked");
-
+    $("#liked-row").append("<div class='col m4 newLiked" + likeIndex + " inner grid-item'>");
+    $(".liked" + likeIndex).appendTo(".newLiked" + likeIndex);
+    $(".card").removeClass("liked");
+    likeIndex++;
 }
