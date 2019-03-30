@@ -10,7 +10,25 @@
 }
 
 body {
-  background-image: url(../images/background2.jpg);
-  background-repeat: no-repeat;
-  background-size: cover;
+  background-image: url(../images/graniteback.jpeg);
+  background-repeat: repeat;
+}
+
+#like {
+  height: 500px;
+  float: right;
+}
+
+#dislike {
+  height: 500px;
+  float: left;
+}
+
+@media only screen and (max-width: 600px) {
+
+  #like,
+  #dislike {
+    height: 100px;
+    width: 100%;
+  }
 }
