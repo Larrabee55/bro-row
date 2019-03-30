@@ -1,16 +1,16 @@
-var googleKey = "GOOGLEKEY";
+var googleKey = "AIzaSyBLJrE6KEfUSM16_1CCc0W_QFNSWDbkkx0";
 var lat;
 var long;
 
 src = "https://maps.googleapis.com/maps/api/js?key=" + googleKey + "&libraries=places";
 var noUsersCity = true;
-// // * On location input run API commands
+
+// * On location input run API commands
 $("#submit").on("click", function (event) {
   noUsersCity = false;
   console.log(noUsersCity)
   event.preventDefault();
-  //     initializeSearch();
-  // });
+ 
   var autocomplete = $("#autocomplete").val().trim();
   var locationUrl = "https://maps.googleapis.com/maps/api/geocode/json?address=" + autocomplete + "&key=" + googleKey;
   
@@ -154,18 +154,13 @@ function search() {
 function callback(results, status) {
   if (status == google.maps.places.PlacesServiceStatus.OK) {
     for (var i = 0; i < results.length; i++) {
-      var place = results[i];
-      console.log("TCL: callback -> results[i]", results[i]);
-      console.log("TCL: callback -> results", results[i].name);
       createMarker(results[i]);
-
-      var name = place.name
 
       var placeId = results[i].place_id;
       placeArr.push(placeId);
-      console.log("TCL: callback -> placeArr", placeArr);
     }
   }
+   placeDetails(placeArr[restIndex]);
 }
 
 // *Location for current search results
@@ -181,9 +176,6 @@ function createMarker(place) {
    
 }
 
-var likeArr = [];
-var dilikeArr = [];
-
 
 // *Get place details
 function placeDetails(place) {
@@ -195,7 +187,7 @@ function placeDetails(place) {
     service.getDetails(request, (place) => {
         console.log("TCL: placeDetails -> place", place);
 
-        //////////////////////////////////
+
         //* This is where we are going to grab all of the data and set it up on the screen
         name = place.name;
         console.log("TCL: placeDetails -> name", name);
@@ -219,6 +211,8 @@ var rating;
 var phone;
 var photo;
 var website;
+var likeArr = [];
+var dilikeArr = [];
 
 // todo Need address components
 
