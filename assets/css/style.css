@@ -5,13 +5,14 @@
 }
 
 #cuisine-me {
-  color: goldenrod;
+  color: #9155AF;
   font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
 }
 
 body {
   background-image: url(../images/graniteback.jpeg);
   background-repeat: repeat;
+  font-family: 'Ubuntu', sans-serif;
 }
 
 #like {
@@ -31,4 +32,20 @@ body {
     height: 100px;
     width: 100%;
   }
+}
+
+a {
+  color: black;
+}
+
+#favorites{
+  background-color: #2BC6DA;
+}
+
+#dislike {
+  background-color: #CF3429;
+}
+
+#like {
+  background-color: #48A320;
 }
