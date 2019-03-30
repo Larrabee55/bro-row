@@ -337,7 +337,7 @@ function displayRestaurant() {
 var likeIndex = 0;
 
 function likedDiv() {
-    $("#liked-row").append("<div class='col m4 newLiked" + likeIndex + " inner grid-item'>");
+    $("#liked-row").append("<div class='col m4 s12 newLiked" + likeIndex + " inner grid-item'>");
     $(".liked" + likeIndex).appendTo(".newLiked" + likeIndex);
     $(".card").removeClass("liked");
     likeIndex++;
