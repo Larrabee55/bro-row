@@ -1,12 +1,9 @@
-
 var googleKey = "GOOGLEKEY";
 var lat;
 var long;
-
 src = "https://maps.googleapis.com/maps/api/js?key=" + googleKey + "&libraries=places";
-var noUsersCity = true;
 
-// * On location input run API commands
+// // * On Zip code input run API commands
 $("#submit").on("click", function (event) {
     noUsersCity = false;
     console.log(noUsersCity)
@@ -39,6 +36,14 @@ $("#submit").on("click", function (event) {
         });
     }
 
+    //* API call for retrieving longitude and latitude from zip
+    $.ajax({
+        url: locationUrl,
+        type: "json",
+        method: "GET",
+        success: function (response) {
+            console.log("TCL: locationUrl", locationUrl);
+            console.log("TCL: response", response.results[0].geometry.location);
 
     //* API call for retrieving longitude and latitude from zip
     $.ajax({
@@ -286,6 +291,7 @@ function createMarker(place) {
     infowindow.open(map, this);
   });
 }
+
 
 var restIndex = 0;
 
