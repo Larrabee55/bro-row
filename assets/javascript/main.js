@@ -1,4 +1,3 @@
-
 var googleKey = "GOOGLEKEY";
 var lat;
 var long;
@@ -143,19 +142,30 @@ function callback(results, status) {
 
             var name = place.name
 
+            storedResultsArr.push(results[i])
+
             var placeId = results[i].place_id;
             placeArr.push(placeId);
-
+            console.log("TCL: callback -> placeArr", placeArr);
         }
     }
     placeDetails(placeArr[restIndex]);
 }
 
+var storedResultsArr = []
 // *Location for current search results
 var placeArr = [];
 
+function createMarker(place) {
+    var marker = new google.maps.Marker({
+        map: map,
+        position: place.geometry.location
+    });
+// *Location for current search results
+
 var likeArr = [];
 var dilikeArr = [];
+
 
 
 // *Get place details
@@ -221,15 +231,15 @@ $("#like").on("click", function () {
 
 function displayRestaurant() {
 
-  $("#restaurant").append("<div class='card'>");
-  $("#restaurant").children(".card").append("<div class='card-image'>");
-  $("#restaurant").children(".card").children(".card-image").append("<img id='image'>");
-  $("#restaurant").children(".card").children(".card-image").append("<span class='card-title'>");
-  $("#restaurant").children(".card").children(".card-image").children(".card-title").append(temp1[restIndex].name)
-  $("#image").attr("src", "assets/css/2web.jpg");
-  $("#restaurant").children(".card").append("<div class='card-content'>");
-  $("#restaurant").children(".card").children(".card-content").append("<p> Resturant Rating: " + temp1[restIndex].rating);
-  $("#restaurant").children(".card").children(".card-content").append("<p> Price: " + temp1[restIndex].price_level);
+    $("#restaurant").append("<div class='card'>");
+    $("#restaurant").children(".card").append("<div class='card-image'>");
+    $("#restaurant").children(".card").children(".card-image").append("<img id='image'>");
+    $("#restaurant").children(".card").children(".card-image").append("<span class='card-title'>");
+    $("#restaurant").children(".card").children(".card-image").children(".card-title").append(storedResultsArr[i].name)
+    $("#image").attr("src=", results[i].photos[0].geturl());
+    $("#restaurant").children(".card").append("<div class='card-content'>");
+    $("#restaurant").children(".card").children(".card-content").append("<p> Resturant Rating: " + storedResultsArr[restIndex].rating);
+    $("#restaurant").children(".card").children(".card-content").append("<p> Price: " + temp1[restIndex].price_level);
 
 }
 
@@ -240,27 +250,31 @@ function displayRestaurant() {
 var usersCity = false;
 
 if (!usersCity) {
-  $("#dislike").on("click", function () {
-    $("#restaurant").empty();
-    restIndex++;
-    displayRestaurant();
-  });
-  $("#like").on("click", function () {
-    $("#restaurant").children(".card").addClass("liked");
-    likedDiv()
-    restIndex++;
-    displayRestaurant();
-  });
+    $("#dislike").on("click", function () {
+        $("#restaurant").empty();
+        restIndex++;
+        displayRestaurant();
+
+
+    });
+    $("#like").on("click", function () {
+        $("#restaurant").children(".card").addClass("liked");
+        likedDiv()
+        restIndex++;
+        displayRestaurant();
+
+
+    });
 }
 
 
 
 
 function likedDiv() {
-  $("#liked-row").prepend("<div class='col m4 newLiked" + restIndex + "'>");
-  $(".liked").appendTo(".newLiked" + restIndex);
-  $(".card").removeClass("liked");
+    $("#liked-row").prepend("<div class='col m4 newLiked" + restIndex + "'>");
+    $(".liked").appendTo(".newLiked" + restIndex);
+    $(".card").removeClass("liked");
+
 }
 
 // $(".card-image").append(temp1[restIndex].photos.html_attributions)
-// console.log(temp1[restIndex].photos[0].html_attributions)
