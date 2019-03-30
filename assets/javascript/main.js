@@ -271,6 +271,8 @@ function placeDetails(place) {
         address1 = place.address_components[0].short_name;
         address2 = place.address_components[1].short_name;
         address3 = place.address_components[2].short_name;
+        address4 = place.address_components[3].short_name;
+		console.log("TCL: placeDetails -> place.address_components", place.address_components);
 
         displayRestaurant();
     });
@@ -286,6 +288,7 @@ var website;
 var address1;
 var address2;
 var address3;
+var address4;
 var likeArr = [];
 var dilikeArr = [];
 
@@ -312,7 +315,7 @@ function displayRestaurant() {
     var pic = $("<div>").addClass("card-image").append("<img src='" + photo + "' />");
     var title = $("<span>").addClass("card-title").append(name);
     var content = $("<div>").addClass("card-content").attr("style", "background-color:goldenrod");
-    var addressCombined = $("<div>").append(address1 + " ").append(address2 + ", ").append(address3);
+    var addressCombined = $("<div>").append(address1 + " ").append(address2 + ", ").append(address3 +", ").append(address4);
     var rate = $("<div>").append("Rating: " + rating);
 
     // todo would like for website to be an <a href> if possible
@@ -328,7 +331,7 @@ function displayRestaurant() {
     }
     var number = $("<div>").append("Phone: " + phone);
 
-    content.append(title).append(rate).append(aTag).append(number);
+    content.append(title).append(rate).append(aTag).append(number).append(addressCombined);
     newDiv.append(pic).append(content);
     $("#restaurant").append(newDiv);
 

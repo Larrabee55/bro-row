@@ -11,6 +11,7 @@
     <!-- materialize link -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
     <script src="/path/to/masonry.pkgd.min.js"></script>
     <!-- Bootstrap CSS -->
     <!-- <link rel="stylesheet" href="https:/stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -45,7 +46,7 @@
 
         <div class="row">
             <!-- dislike button -->
-            <div class="col m2 s12 red valign-wrapper" id="dislike">
+            <div class="col m2 s12 valign-wrapper" id="dislike">
                 <a><i class="large material-icons">close</i></a>
             </div>
             <!-- resurant image and button -->
@@ -60,13 +61,13 @@
                 </div>
             </div>
             <!-- llike button -->
-            <div class="col m2 s12 green valign-wrapper" id="like">
+            <div class="col m2 s12 valign-wrapper" id="like">
                 <a><i class="large material-icons">check</i></a>
             </div>
         </div>
         <!-- about cuisineme section -->
-        <div class="row">
-            <div class="col m12 s12 grey center-align">
+        <div id="favorites" class="row">
+            <div class="col m12 s12 center-align">
                 <h2>Your Liked Resturants</h2>
                 <div class="row grid" id="liked-row">
                 </div>
