@@ -15,14 +15,26 @@ body {
   font-family: 'Ubuntu', sans-serif;
 }
 
+
 #like {
   height: 500px;
-  float: right;
+  align-content: center;
 }
 
 #dislike {
   height: 500px;
   float: left;
+}
+
+.card .card-image {
+  height: 300px;
+  background-size: cover;
+  position: relative;
+}
+
+.card .card-content {
+  height: 200px;
+
 }
 
 @media only screen and (max-width: 600px) {
