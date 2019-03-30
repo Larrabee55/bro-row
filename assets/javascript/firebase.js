@@ -2,7 +2,7 @@
 
   // Initialize Firebase
 var config = {
-    apiKey: "AIzaSyAI8r-ucedQnCXCVs6QfREqBVCV8JWzL7",
+    apiKey: "",
     authDomain: "cuisineme-54bb8.firebaseapp.com",
     databaseURL: "https://cuisineme-54bb8.firebaseio.com",
     projectId: "cuisineme-54bb8",
@@ -19,7 +19,7 @@ service cloud.firestore {
     }
   }
   //take user data from button click event to store into database
-  
+
 //likes to view in favorites page
 database.ref().on("child_added", function(childSnapshot) {
     console.log(childSnapshot.val());

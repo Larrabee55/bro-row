@@ -1,4 +1,4 @@
-var googleKey = "AIzaSyAI8r-ucedQnCXCVs6QfREqBVCV8JWzL7g";
+var googleKey = "";
 var lat;
 var long;
 src = "https://maps.googleapis.com/maps/api/js?key=" + googleKey + "&libraries=places";
