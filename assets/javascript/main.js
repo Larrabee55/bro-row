@@ -1,28 +1,47 @@
-var googleKey = "AIzaSyBLJrE6KEfUSM16_1CCc0W_QFNSWDbkkx0";
+var googleKey = "GOOGLEKEY";
 var lat;
 var long;
 
-// // * On Zip code input run API commands
+src = "https://maps.googleapis.com/maps/api/js?key=" + googleKey + "&libraries=places";
+var noUsersCity = true;
+// // * On location input run API commands
 $("#submit").on("click", function (event) {
+  noUsersCity = false;
+  console.log(noUsersCity)
+  event.preventDefault();
+  //     initializeSearch();
+  // });
+  var autocomplete = $("#autocomplete").val().trim();
+  var locationUrl = "https://maps.googleapis.com/maps/api/geocode/json?address=" + autocomplete + "&key=" + googleKey;
+  
+  if (!noUsersCity) {
+    $("#dislike").on("click", function () {
+      $("#restaurant").empty();
+      restIndex++;
+      displayRestaurant();
+    });
+    $("#like").on("click", function () {
+      console.log(noUsersCity)
+      $("#restaurant").children(".card").addClass("liked");
+      likedDiv()
+      restIndex++;
+      displayRestaurant();
+    });
+  }
+  //* API call for retrieving longitude and latitude from zip
+  $.ajax({
+    url: locationUrl,
+    type: "json",
+    method: "GET",
+    success: function (response) {
 
-    event.preventDefault();
-
-    var autocomplete = $("#autocomplete").val().trim();
-    // var zipCode = $("#search-zip").val();
-    var locationUrl = "https://maps.googleapis.com/maps/api/geocode/json?address=" + autocomplete + "&key=" + googleKey;
-
-
-    // //* API call for retrieving longitude and latitude from zip
-    $.ajax({
-        url: locationUrl,
-        type: "json",
-        method: "GET",
-        success: function (response) {
 
 
 
-            lat = response.results[0].geometry.location.lat;
-            long = response.results[0].geometry.location.lng;
+      lat = response.results[0].geometry.location.lat;
+      console.log("TCL: lat", lat);
+      long = response.results[0].geometry.location.lng;
+      console.log("TCL: long", long);
 
             initializeSearch();
 
@@ -133,25 +152,22 @@ function search() {
 }
 
 function callback(results, status) {
+  if (status == google.maps.places.PlacesServiceStatus.OK) {
+    for (var i = 0; i < results.length; i++) {
+      var place = results[i];
+      console.log("TCL: callback -> results[i]", results[i]);
+      console.log("TCL: callback -> results", results[i].name);
+      createMarker(results[i]);
 
-    if (status == google.maps.places.PlacesServiceStatus.OK) {
-        for (var i = 0; i < results.length; i++) {
-            var place = results[i];
-            createMarker(results[i]);
+      var name = place.name
 
-            var name = place.name
-
-            storedResultsArr.push(results[i])
-
-            var placeId = results[i].place_id;
-            placeArr.push(placeId);
-            console.log("TCL: callback -> placeArr", placeArr);
-        }
+      var placeId = results[i].place_id;
+      placeArr.push(placeId);
+      console.log("TCL: callback -> placeArr", placeArr);
     }
-    placeDetails(placeArr[restIndex]);
+  }
 }
 
-var storedResultsArr = []
 // *Location for current search results
 var placeArr = [];
 
@@ -162,9 +178,11 @@ function createMarker(place) {
     });
     // *Location for current search results
 
-    var likeArr = [];
-    var dilikeArr = [];
+   
 }
+
+var likeArr = [];
+var dilikeArr = [];
 
 
 // *Get place details
@@ -274,26 +292,7 @@ function displayRestaurant() {
 // Or search a different city
 var usersCity = false;
 
-if (!usersCity) {
-    $("#dislike").on("click", function () {
-        $("#restaurant").empty();
-        restIndex++;
-        displayRestaurant();
-
-
-    });
-    $("#like").on("click", function () {
-        $("#restaurant").children(".card").addClass("liked");
-        likedDiv()
-        restIndex++;
-        displayRestaurant();
-
-
-    });
 }
-
-
-
 
 function likedDiv() {
     $("#liked-row").prepend("<div class='col m4 newLiked" + restIndex + "'>");
