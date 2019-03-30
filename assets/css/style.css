@@ -15,13 +15,24 @@ body {
 }
 
 #like {
-  height: 500px;
+  height: 700px;
   float: right;
 }
 
 #dislike {
-  height: 500px;
+  height: 700px;
   float: left;
+}
+
+.card .card-image {
+  height: 500px;
+  background-size: cover;
+  position: relative;
+}
+
+.card .card-content {
+  height: 200px;
+
 }
 
 @media only screen and (max-width: 600px) {
