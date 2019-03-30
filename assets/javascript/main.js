@@ -369,8 +369,24 @@ function displayRestaurant() {
 var likeIndex = 0;
 
 function likedDiv() {
-    $("#liked-row").append("<div class='col m4 newLiked" + likeIndex + " inner grid-item'>");
+  $("#liked-row").append("<div class='col m4 newLiked" + likeIndex + " inner grid-item'>");
     $(".liked" + likeIndex).appendTo(".newLiked" + likeIndex);
     $(".card").removeClass("liked");
     likeIndex++;
 }
+
+$(window).resize(function () {
+  var viewportWidth = $(window).width();
+  if (viewportWidth < 601) {
+    $("#like").removeClass("valign-wrapper").addClass("center-align");
+    $("#dislike").removeClass("valign-wrapper").addClass("center-align");
+  }
+});
+$(window).resize(function () {
+  var viewportWidth = $(window).width();
+  if (viewportWidth > 600) {
+    $("#like").removeClass("center-align").addClass("valign-wrapper");
+    $("#dislike").removeClass("center-align").addClass("valign-wrapper");
+  }
+});
+    
