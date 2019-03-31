@@ -1,4 +1,4 @@
-var googleKey = "KEY";
+var googleKey = "AIzaSyBLJrE6KEfUSM16_1CCc0W_QFNSWDbkkx0";
 var lat;
 var long;
 src = "https://maps.googleapis.com/maps/api/js?key=" + googleKey + "&libraries=places";
@@ -273,7 +273,6 @@ function placeDetails(place) {
         address2 = place.address_components[1].short_name;
         address3 = place.address_components[2].short_name;
         address4 = place.address_components[3].short_name;
-		console.log("TCL: placeDetails -> place.address_components", place.address_components);
 
         displayRestaurant();
     });
