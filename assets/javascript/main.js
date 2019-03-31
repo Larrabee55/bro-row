@@ -242,41 +242,41 @@ function createMarker(place) {
 
 // *Get place details
 function placeDetails(place) {
-    var request = {
-        placeId: place,
-        fields: ['name', 'rating', 'formatted_phone_number', 'photos', 'website', 'address_components'],
-    };
+  var request = {
+    placeId: place,
+    fields: ['name', 'rating', 'formatted_phone_number', 'photos', 'website', 'address_components'],
+  };
 
-    service.getDetails(request, (place) => {
+  service.getDetails(request, (place) => {
 
-        //* This is where we are going to grab all of the data and set it up on the screen
-        name = place.name;
-        rating = place.rating;
-        if (place.formatted_phone_number) {
-            phone = place.formatted_phone_number;
-        }
-        if (place.photos) {
-            photo = place.photos[0].getUrl({
-                'maxWidth': 300,
-                'maxHeight': 300
-            });
-        } else {
-            photo = "./assets/images/No_image_available.png";
-        }
-        if (place.website) {
-            website = place.website;
-        } else {
-            website = false;
-        }
+    //* This is where we are going to grab all of the data and set it up on the screen
+    name = place.name;
+    rating = place.rating;
+    if (place.formatted_phone_number) {
+      phone = place.formatted_phone_number;
+    }
+    if (place.photos) {
+      photo = place.photos[0].getUrl({
+        'maxWidth': 300,
+        'maxHeight': 300
+      });
+    } else {
+      photo = "./assets/images/No_image_available.png";
+    }
+    if (place.website) {
+      website = place.website;
+    } else {
+      website = false;
+    }
 
-        address1 = place.address_components[0].short_name;
-        address2 = place.address_components[1].short_name;
-        address3 = place.address_components[2].short_name;
-        address4 = place.address_components[3].short_name;
-		console.log("TCL: placeDetails -> place.address_components", place.address_components);
+    address1 = place.address_components[0].short_name;
+    address2 = place.address_components[1].short_name;
+    address3 = place.address_components[2].short_name;
+    address4 = place.address_components[3].short_name;
+    console.log("TCL: placeDetails -> place.address_components", place.address_components);
 
-        displayRestaurant();
-    });
+    displayRestaurant();
+  });
 }
 
 
@@ -311,13 +311,13 @@ var restIndex = 0;
 
 function displayRestaurant() {
 
-    $("#restaurant").empty();
-    var newDiv = $("<div>").addClass("card");
-    var pic = $("<div>").addClass("card-image").append("<img src='" + photo + "' />");
-    var title = $("<span>").addClass("card-title").append(name);
-    var content = $("<div>").addClass("card-content").attr("style", "background-color:goldenrod");
-    var addressCombined = $("<div>").append(address1 + " ").append(address2 + ", ").append(address3 +", ").append(address4);
-    var rate = $("<div>").append("Rating: " + rating);
+  $("#restaurant").empty();
+  var newDiv = $("<div>").addClass("card");
+  var pic = $("<div>").addClass("card-image").append("<img src='" + photo + "' />");
+  var title = $("<span>").addClass("card-title").append(name);
+  var content = $("<div>").addClass("card-content").attr("style", "background-color:goldenrod");
+  var addressCombined = $("<div>").append(address1 + " ").append(address2 + ", ").append(address3 + ", ").append(address4);
+  var rate = $("<div>").append("Rating: " + rating);
 
   // todo would like for website to be an <a href> if possible
 
@@ -332,19 +332,19 @@ function displayRestaurant() {
   }
   var number = $("<div>").append("Phone: " + phone);
 
-    content.append(title).append(rate).append(aTag).append(number).append(addressCombined);
-    newDiv.append(pic).append(content);
-    $("#restaurant").append(newDiv);
+  content.append(title).append(rate).append(aTag).append(number).append(addressCombined);
+  newDiv.append(pic).append(content);
+  $("#restaurant").append(newDiv);
 
 
 }
 var likeIndex = 0;
 
 function likedDiv() {
-    $("#liked-row").append("<div class='col m4 s12 newLiked" + likeIndex + " inner grid-item'>");
-    $(".liked" + likeIndex).appendTo(".newLiked" + likeIndex);
-    $(".card").removeClass("liked");
-    likeIndex++;
+  $("#liked-row").append("<div class='col m4 s12 newLiked" + likeIndex + " inner grid-item'>");
+  $(".liked" + likeIndex).appendTo(".newLiked" + likeIndex);
+  $(".card").removeClass("liked");
+  likeIndex++;
 }
 
 $(window).resize(function () {
@@ -355,9 +355,9 @@ $(window).resize(function () {
   }
 });
 $(window).resize(function () {
-    var viewportWidth = $(window).width();
-    if (viewportWidth > 600) {
-        $("#like").removeClass("center-align").addClass("valign-wrapper");
-        $("#dislike").removeClass("center-align").addClass("valign-wrapper");
-    }
+  var viewportWidth = $(window).width();
+  if (viewportWidth > 600) {
+    $("#like").removeClass("center-align").addClass("valign-wrapper");
+    $("#dislike").removeClass("center-align").addClass("valign-wrapper");
+  }
 });
