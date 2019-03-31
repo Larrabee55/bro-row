@@ -1,4 +1,4 @@
-var googleKey = "KEY";
+var googleKey = "AIzaSyBLJrE6KEfUSM16_1CCc0W_QFNSWDbkkx0";
 var lat;
 var long;
 src = "https://maps.googleapis.com/maps/api/js?key=" + googleKey + "&libraries=places";
@@ -7,13 +7,15 @@ src = "https://maps.googleapis.com/maps/api/js?key=" + googleKey + "&libraries=p
 
 
 $(document).on("click", "#dislike", function () {
-  if (!noUsersCity) {
+if (!noUsersCity) {
     dilikeArr.push(name);
     restIndex++;
+
     if (placeArr[restIndex] === undefined) {
-      $("#restaurant").empty().addClass("expand").append("<button> Keep searching?");
+    $("#restaurant").empty().addClass("expand").append("<button> Keep searching?");
     }
     placeDetails(placeArr[restIndex]);
+
   }
 });
 $(document).on("click", "#like", function () {
