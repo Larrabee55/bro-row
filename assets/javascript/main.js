@@ -310,13 +310,13 @@ var restIndex = 0;
 
 function displayRestaurant() {
 
-    $("#restaurant").empty();
-    var newDiv = $("<div>").addClass("card");
-    var pic = $("<div>").addClass("card-image").append("<img src='" + photo + "' />");
-    var title = $("<span>").addClass("card-title").append(name);
-    var content = $("<div>").addClass("card-content").attr("style", "background-color:goldenrod");
-    var addressCombined = $("<div>").append(address1 + " ").append(address2 + ", ").append(address3 +", ").append(address4);
-    var rate = $("<div>").append("Rating: " + rating);
+  $("#restaurant").empty();
+  var newDiv = $("<div>").addClass("card");
+  var pic = $("<div>").addClass("card-image").append("<img src='" + photo + "' />");
+  var title = $("<span>").addClass("card-title").append(name);
+  var content = $("<div>").addClass("card-content").attr("style", "background-color:goldenrod");
+  var addressCombined = $("<div>").append(address1 + " ").append(address2 + ", ").append(address3 + ", ").append(address4);
+  var rate = $("<div>").append("Rating: " + rating);
 
   // todo would like for website to be an <a href> if possible
 
@@ -331,19 +331,19 @@ function displayRestaurant() {
   }
   var number = $("<div>").append("Phone: " + phone);
 
-    content.append(title).append(rate).append(aTag).append(number).append(addressCombined);
-    newDiv.append(pic).append(content);
-    $("#restaurant").append(newDiv);
+  content.append(title).append(rate).append(aTag).append(number).append(addressCombined);
+  newDiv.append(pic).append(content);
+  $("#restaurant").append(newDiv);
 
 
 }
 var likeIndex = 0;
 
 function likedDiv() {
-    $("#liked-row").append("<div class='col m4 s12 newLiked" + likeIndex + " inner grid-item'>");
-    $(".liked" + likeIndex).appendTo(".newLiked" + likeIndex);
-    $(".card").removeClass("liked");
-    likeIndex++;
+  $("#liked-row").append("<div class='col m4 s12 newLiked" + likeIndex + " inner grid-item'>");
+  $(".liked" + likeIndex).appendTo(".newLiked" + likeIndex);
+  $(".card").removeClass("liked");
+  likeIndex++;
 }
 
 $(window).resize(function () {
@@ -354,9 +354,9 @@ $(window).resize(function () {
   }
 });
 $(window).resize(function () {
-    var viewportWidth = $(window).width();
-    if (viewportWidth > 600) {
-        $("#like").removeClass("center-align").addClass("valign-wrapper");
-        $("#dislike").removeClass("center-align").addClass("valign-wrapper");
-    }
+  var viewportWidth = $(window).width();
+  if (viewportWidth > 600) {
+    $("#like").removeClass("center-align").addClass("valign-wrapper");
+    $("#dislike").removeClass("center-align").addClass("valign-wrapper");
+  }
 });
