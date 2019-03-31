@@ -8,31 +8,32 @@
     storageBucket: "cuisineme-54bb8.appspot.com",
     messagingSenderId: "908231338492"
   };
-  firebase.initializeApp(config);
+  var fire = firebase.initializeApp(config);
+  console.log(fire);
+  
 //take user data from button click event to store into database
+
+
+var rootRef = firebase.database().ref()
+console.log(rootRef);
+
 //likes to view in favorites page
-database.ref().on("child_added", function(childSnapshot) {
-    console.log(childSnapshot.val());
+  rootRef.once("value").then(function(snapshot) {
+    var likes = snapshot.child().val()
+    console.log(snapshot.val());
+    var likedRow =document.getElementById("liked-row")
+    console.log(likedRow) 
+})
+// key/email of user to 
 
-    // Store everything into a variable.
-    var userName = childSnapshot.val().name;
-    var dislikes = childSnapshot.val().dislikes;
-    var placeId = childSnapshot.val().placeId;
-    var likes = childSnapshot.val().likes;
+var mainRef=rootRef.child('userId')
+ //.set to push it 
 
-    // User Info
-    console.log(userName);
-    console.log(dislikes);
-    console.log(placeId);
-    console.log(likes);
-//dislikes to not show again
 
-//log in google
-import firebase, {auth,provider} from 'firebase';
-
-googleLogIn() {
-    auth.signInWithPopup(provider).then(result => {
-    console.log(result);
-    });
-}
-//retrive data from log in 
+// function googleLogIn(){
+//   firebase.auth.signInWithPopup(firebase.provider).then(result => {
+//     console.log(result);
+//   });
+// }
+// //retrive data from log in 
+// googleLogIn()

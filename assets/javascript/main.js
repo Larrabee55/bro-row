@@ -1,5 +1,5 @@
 
-var googleKey = "GOOGLEKEY";
+var googleKey = "";
 var lat;
 var long;
 
