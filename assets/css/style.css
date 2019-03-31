@@ -26,10 +26,13 @@ body {
   float: left;
 }
 
-.card .card-image {
+.card-image {
   height: 300px;
   background-size: cover;
-  position: relative;
+}
+
+img {
+  height: 300px;
 }
 
 .card .card-content {
@@ -50,7 +53,7 @@ a {
   color: black;
 }
 
-#favorites{
+#favorites {
   background-color: #2BC6DA;
 }
 
