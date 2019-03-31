@@ -1,54 +1,58 @@
-
-var googleKey = "";
+var googleKey = "KEY";
 var lat;
 var long;
-
 src = "https://maps.googleapis.com/maps/api/js?key=" + googleKey + "&libraries=places";
-var noUsersCity = true;
+
+
+
+
+$(document).on("click", "#dislike", function () {
+  if (!noUsersCity) {
+    dilikeArr.push(name);
+    restIndex++;
+    if (placeArr[restIndex] === undefined) {
+      $("#restaurant").empty().addClass("expand").append("<button> Keep searching?");
+    }
+    placeDetails(placeArr[restIndex]);
+  }
+});
+$(document).on("click", "#like", function () {
+
+  if (!noUsersCity) {
+    $("#restaurant").children(".card").addClass("liked" + likeIndex);
+    likeArr.push(placeArr[restIndex]);
+    likedDiv();
+    restIndex++;
+    if (placeArr[restIndex] === undefined) {
+      $("#restaurant").empty().addClass("expand col m6 center-align").append("<button id='keep'> Keep searching?");
+      $("#keep").attr("class", "btn waves-effect waves-dark grey");
+    }
+    placeDetails(placeArr[restIndex]);
+  }
+});
+
 
 // * On location input run API commands
+// // * On Zip code input run API commands
+
 $("#submit").on("click", function (event) {
-    noUsersCity = false;
-    console.log(noUsersCity)
-    event.preventDefault();
 
-    var autocomplete = $("#autocomplete").val().trim();
-    var locationUrl = "https://maps.googleapis.com/maps/api/geocode/json?address=" + autocomplete + "&key=" + googleKey;
+  noUsersCity = false;
+  event.preventDefault();
 
-
-    if (!noUsersCity) {
-        $("#dislike").on("click", function () {
-            dilikeArr.push(name);
-            restIndex++;
-            console.log("TCL: placeArr[restIndex]", placeArr[restIndex]);
-            placeDetails(placeArr[restIndex]);
-            if (placeArr[restIndex] === undefined) {
-                $("#restaurant").empty().addClass("expand").append("<button> Keep searching?");
-            }
-        });
-        $("#like").on("click", function () {
-            $("#restaurant").children(".card").addClass("liked");
-            likeArr.push(placeArr[restIndex]);
-            likedDiv();
-            restIndex++;
-            console.log("TCL: placeArr[restIndex]", placeArr[restIndex]);
-            placeDetails(placeArr[restIndex]);
-            if (placeArr[restIndex] === undefined) {
-                $("#restaurant").empty().addClass("expand").append("<button> Keep searching?");
-            }
-        });
-    }
+  var autocomplete = $("#autocomplete").val().trim();
+  var locationUrl = "https://maps.googleapis.com/maps/api/geocode/json?address=" + autocomplete + "&key=" + googleKey;
 
 
-    //* API call for retrieving longitude and latitude from zip
-    $.ajax({
-        url: locationUrl,
-        type: "json",
-        method: "GET",
-        success: function (response) {
+  //* API call for retrieving longitude and latitude from zip
+  $.ajax({
+    url: locationUrl,
+    type: "json",
+    method: "GET",
+    success: function (response) {
 
-            lat = response.results[0].geometry.location.lat;
-            long = response.results[0].geometry.location.lng;
+      lat = response.results[0].geometry.location.lat;
+      long = response.results[0].geometry.location.lng;
 
       initializeSearch();
 
@@ -98,56 +102,60 @@ autocomplete.addListener('place_changed', onPlaceChanged);
 // *Copied from "Find Places Nearby" https://developers.google.com/maps/documentation/javascript/places#place_search_requests
 
 function initializeSearch() {
-    var location = new google.maps.LatLng(lat, long);
-    radius = 500;
-    restIndex = 0;
+  var location = new google.maps.LatLng(lat, long);
+  radius = 500;
+  restIndex = 0;
 
-    tempArr = [];
-
-    map = new google.maps.Map(document.getElementById('map'), {
-        center: location,
-        zoom: 15
-    });
-
-    var request = {
-        location: location,
-        radius: radius,
-        type: ['restaurant']
-    };
-
-    service = new google.maps.places.PlacesService(map);
-    service.nearbySearch(request, callback);
-}
-
-var radius;
-var tempArr = [];
-
-function expandSearch() {
-    var location = new google.maps.LatLng(lat, long);
-
-    tempArr = placeArr;
-
-    radius += 250;
-    restIndex = 0;
-    console.log("TCL: expandSearch -> radius", radius);
+  tempArr = [];
+  placeArr = [];
+  $("#restaurant").empty();
 
   map = new google.maps.Map(document.getElementById('map'), {
     center: location,
     zoom: 15
   });
 
-    var request = {
-        location: location,
-        radius: radius,
-        type: ['restaurant']
-    };
+  var request = {
+    location: location,
+    radius: radius,
+    type: ['restaurant']
+  };
+
+  service = new google.maps.places.PlacesService(map);
+  service.nearbySearch(request, callback);
+}
+
+var radius;
+var tempArr = [];
+
+function expandSearch() {
+  var location = new google.maps.LatLng(lat, long);
+
+  for (var i = 0; i < placeArr.length; i++) {
+    var element = placeArr[i];
+    tempArr.push(element);
+  }
+
+  radius += 250;
+  restIndex = 0;
+
+  map = new google.maps.Map(document.getElementById('map'), {
+    center: location,
+    zoom: 15
+  });
+
+  var request = {
+    location: location,
+    radius: radius,
+    type: ['restaurant']
+  };
 
   service = new google.maps.places.PlacesService(map);
   service.nearbySearch(request, callback);
 }
 
 $(document).on("click", ".expand", function () {
-    expandSearch();
+  expandSearch();
 });
 
 function onPlaceChanged() {
@@ -197,27 +205,26 @@ function search() {
 // todo Needs some work to be able to splice tempArr from placeArr
 
 function callback(results, status) {
-    if (status == google.maps.places.PlacesServiceStatus.OK) {
-        placeArr = [];
-        for (var i = 0; i < results.length; i++) {
-            createMarker(results[i]);
+  if (status == google.maps.places.PlacesServiceStatus.OK) {
+    for (var i = 0; i < results.length; i++) {
+      createMarker(results[i]);
 
-            var placeId = results[i].place_id;
-            placeArr.push(placeId);
-        }
+      var placeId = results[i].place_id;
+      placeArr.push(placeId);
     }
 
-    for (var i = 0; i < placeArr.length; i++) {
-        for (var j = 0; j < placeArr.length; j++) {
-            if (tempArr[j] === placeArr[j]) {
-                placeArr.splice(j, 1);
-            }
-        }
-    }
+  }
 
-    console.log("TCL: callback -> placeArr", placeArr);
-    placeDetails(placeArr[restIndex]);
+  for (var i = 0; i < placeArr.length; i++) {
+    for (var j = 0; j < placeArr.length; j++) {
+      if (tempArr[i] === placeArr[j]) {
+        placeArr.splice(j, 1);
+      }
+    }
+  }
+  placeDetails(placeArr[restIndex]);
 }
+
 
 // *Location for current search results
 var placeArr = [];
@@ -235,32 +242,42 @@ function createMarker(place) {
 
 // *Get place details
 function placeDetails(place) {
-    var request = {
-        placeId: place,
-        fields: ['name', 'rating', 'formatted_phone_number', 'photos', 'website', 'address_components'],
-    };
+  var request = {
+    placeId: place,
+    fields: ['name', 'rating', 'formatted_phone_number', 'photos', 'website', 'address_components'],
+  };
 
-    service.getDetails(request, (place) => {
-        console.log("TCL: placeDetails -> place", place);
+  service.getDetails(request, (place) => {
 
-        //* This is where we are going to grab all of the data and set it up on the screen
-        name = place.name;
-        rating = place.rating;
-        if (place.formatted_phone_number){
-        phone = place.formatted_phone_number;
-        }
-        photo = place.photos[0].getUrl({
-            'maxWidth': 300,
-            'maxHeight': 300
-        });
-        if(place.website){
-        website = place.website;
-        }
+    //* This is where we are going to grab all of the data and set it up on the screen
+    name = place.name;
+    rating = place.rating;
+    if (place.formatted_phone_number) {
+      phone = place.formatted_phone_number;
+    }
+    if (place.photos) {
+      photo = place.photos[0].getUrl({
+        'maxWidth': 300,
+        'maxHeight': 300
+      });
+    } else {
+      photo = "./assets/images/No_image_available.png";
+    }
+    if (place.website) {
+      website = place.website;
+    } else {
+      website = false;
+    }
 
+    address1 = place.address_components[0].short_name;
+    address2 = place.address_components[1].short_name;
+    address3 = place.address_components[2].short_name;
+    address4 = place.address_components[3].short_name;
+    console.log("TCL: placeDetails -> place.address_components", place.address_components);
 
-        displayRestaurant();
-    });
-};
+    displayRestaurant();
+  });
+}
 
 
 // * Variables for displaying each search
@@ -269,10 +286,12 @@ var rating;
 var phone;
 var photo;
 var website;
+var address1;
+var address2;
+var address3;
+var address4;
 var likeArr = [];
 var dilikeArr = [];
-
-// todo Need address components
 
 
 function createMarker(place) {
@@ -287,34 +306,58 @@ function createMarker(place) {
   });
 }
 
-var restIndex = 0;
 
-// todo Need to work on displaying the content
+var restIndex = 0;
 
 function displayRestaurant() {
 
-    $("#restaurant").empty();
-    var newDiv = $("<div>").addClass("card");
-    var pic = $("<div>").addClass("card-image").append("<img src='" + photo + "' />");
-    var title = $("<span>").addClass("card-title").append(name);
-    var content = $("<div>").addClass("card-content").attr("style", "background-color:goldenrod");
-    var rate = $("<div>").append("Rating: " + rating);
+  $("#restaurant").empty();
+  var newDiv = $("<div>").addClass("card");
+  var pic = $("<div>").addClass("card-image").append("<img src='" + photo + "' />");
+  var title = $("<span>").addClass("card-title").append(name);
+  var content = $("<div>").addClass("card-content").attr("style", "background-color:goldenrod");
+  var addressCombined = $("<div>").append(address1 + " ").append(address2 + ", ").append(address3 + ", ").append(address4);
+  var rate = $("<div>").append("Rating: " + rating);
+
+  // todo would like for website to be an <a href> if possible
+
+  var aTag = $("<a>")
+  if (website) {
+    aTag.attr("href", website);
+    aTag.attr("target", "_blank");
+    aTag.text("Website")
+    // var web = $("<a href=" + website + ">Website</a>");
 
 
-    // todo would like for website to be an <a href> if possible
+  }
+  var number = $("<div>").append("Phone: " + phone);
 
-    var web = $("<div>").append("Website: " + website);
-    var number = $("<div>").append("Phone: " + phone);
+  content.append(title).append(rate).append(aTag).append(number).append(addressCombined);
+  newDiv.append(pic).append(content);
+  $("#restaurant").append(newDiv);
 
-    content.append(title).append(rate).append(web).append(number);
-    newDiv.append(pic).append(content);
-    $("#restaurant").append(newDiv);
 
 }
+var likeIndex = 0;
 
 function likedDiv() {
-  $("#liked-row").prepend("<div class='col m4 newLiked" + restIndex + " inner'>");
-  $(".liked").appendTo(".newLiked" + restIndex);
+  $("#liked-row").append("<div class='col m4 s12 newLiked" + likeIndex + " inner grid-item'>");
+  $(".liked" + likeIndex).appendTo(".newLiked" + likeIndex);
   $(".card").removeClass("liked");
-
+  likeIndex++;
 }
+
+$(window).resize(function () {
+  var viewportWidth = $(window).width();
+  if (viewportWidth < 601) {
+    $("#like").removeClass("valign-wrapper").addClass("center-align");
+    $("#dislike").removeClass("valign-wrapper").addClass("center-align");
+  }
+});
+$(window).resize(function () {
+  var viewportWidth = $(window).width();
+  if (viewportWidth > 600) {
+    $("#like").removeClass("center-align").addClass("valign-wrapper");
+    $("#dislike").removeClass("center-align").addClass("valign-wrapper");
+  }
+});

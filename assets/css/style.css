@@ -5,12 +5,62 @@
 }
 
 #cuisine-me {
-  color: goldenrod;
+  color: #9155AF;
   font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
 }
 
 body {
-  background-image: url(../images/background2.jpg);
-  background-repeat: no-repeat;
+  background-image: url(../images/graniteback.jpeg);
+  background-repeat: repeat;
+  font-family: 'Ubuntu', sans-serif;
+}
+
+
+#like {
+  height: 500px;
+  align-content: center;
+}
+
+#dislike {
+  height: 500px;
+  float: left;
+}
+
+.card-image {
+  height: 300px;
   background-size: cover;
+}
+
+img {
+  height: 300px;
+}
+
+.card .card-content {
+  height: 200px;
+
+}
+
+@media only screen and (max-width: 600px) {
+
+  #like,
+  #dislike {
+    height: 100px;
+    width: 100%;
+  }
+}
+
+a {
+  color: black;
+}
+
+#favorites {
+  background-color: #2BC6DA;
+}
+
+#dislike {
+  background-color: #CF3429;
+}
+
+#like {
+  background-color: #48A320;
 }

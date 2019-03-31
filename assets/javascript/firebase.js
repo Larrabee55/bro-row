@@ -1,6 +1,7 @@
 //firebase
+
   // Initialize Firebase
-  var config = {
+var config = {
     apiKey: "",
     authDomain: "cuisineme-54bb8.firebaseapp.com",
     databaseURL: "https://cuisineme-54bb8.firebaseio.com",
