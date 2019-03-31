@@ -8,53 +8,33 @@ var config = {
     projectId: "cuisineme-54bb8",
     storageBucket: "cuisineme-54bb8.appspot.com",
     messagingSenderId: "908231338492"
-};
-firebase.initializeApp(config);
+  };
+  var fire = firebase.initializeApp(config);
+  console.log(fire);
+  
+//take user data from button click event to store into database
 
-//firestore
-service cloud.firestore {
-  match /databases/{database}/documents {
-    match /{document=userid} {
-      allow read, write;
-    }
-  }
 
-  //take user data from button click event to store into database
+var rootRef = firebase.database().ref()
+console.log(rootRef);
 
-  // update likes array
-  userid.update({
-'likes' 
-FieldValue. 
-arrayUnion ('')
-  })
 //likes to view in favorites page
-database.ref().on("child_added", function(childSnapshot) {
-    console.log(childSnapshot.val());
+  rootRef.once("value").then(function(snapshot) {
+    var likes = snapshot.child().val()
+    console.log(snapshot.val());
+    var likedRow =document.getElementById("liked-row")
+    console.log(likedRow) 
+})
+// key/email of user to 
 
-    // Store everything into a variable.
-    var userName = childSnapshot.val().name;
-    var placeId = childSnapshot.val().placeId;
-    var likes = childSnapshot.val().likes;
-
-    // User Info
-    console.log(userName);
-    console.log(placeId);
-    console.log(likes);
-
-}
-//log in google
-import firebase, {auth,provider} from 'firebase';
-
-googleLogIn() {
-    auth.signInWithPopup(provider).then(result => {
-    console.log(result);
-    });
-}
-//retrive data from log in 
-<
-  function gotData(data) {
-    console.log(data);
-  }
-<script src="https://cuisineme-54bb8.firebaseio.com/rest/saving-data/fireblog/posts.json?callback=gotData"></script>
+var mainRef=rootRef.child('userId')
+ //.set to push it 
 
 
+// function googleLogIn(){
+//   firebase.auth.signInWithPopup(firebase.provider).then(result => {
+//     console.log(result);
+//   });
+// }
+// //retrive data from log in 
+// googleLogIn()
