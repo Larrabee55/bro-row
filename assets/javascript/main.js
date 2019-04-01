@@ -1,6 +1,9 @@
 var googleKey = "AIzaSyBLJrE6KEfUSM16_1CCc0W_QFNSWDbkkx0";
 var lat;
 var long;
+// *Location for current search results
+var placeArr = [];
+var likeArr = [];
 src = "https://maps.googleapis.com/maps/api/js?key=" + googleKey + "&libraries=places";
 
 // Initialize Firebase
@@ -38,13 +41,7 @@ var roof = document.querySelector('#like');
 var rootRef = firebase.database().ref()
 var userRef = db.ref("/users");
 
-//likes to view in favorites page
-rootRef.once("value").then(function (snapshot) {
-    var likes = snapshot.child().val()
-    console.log(snapshot.val());
-    var likedRow = document.getElementById("liked-row")
-    // console.log(likedRow)
-})
+
 // key/email of user to 
 
 var mainRef = rootRef.child('userId')
@@ -65,11 +62,11 @@ var mainRef = rootRef.child('userId')
 // googleLogIn();
 
 
-
 $(document).on("click", "#dislike", function () {
     if (!noUsersCity) {
         dilikeArr.push(name);
         restIndex++;
+
 
         if (placeArr[restIndex] === undefined) {
             $("#restaurant").empty().addClass("expand").append("<button> Keep searching?");
@@ -82,18 +79,36 @@ $(document).on("click", "#like", function () {
 
     if (!noUsersCity) {
 
-        $("#restaurant").children(".card").addClass("liked" + likeIndex);
-        likeArr.push(placeArr[restIndex]);
-
-        userRef.set(likeArr);
-        likedDiv();
-        restIndex++;
-        if (placeArr[restIndex] === undefined) {
-            $("#restaurant").empty().addClass("expand col m6 center-align").append("<button id='keep'> Keep searching?");
-            $("#keep").attr("class", "btn waves-effect waves-dark grey");
-        }
-        placeDetails(placeArr[restIndex]);
+        moveToLike();
     }
+});
+
+function moveToLike() {
+
+    var closeImg = $("<img>").attr("src", "./assets/images/xbutton.png").addClass("close").val(placeArr[restIndex]);
+    $("#restaurant").children(".card").addClass("liked" + likeIndex).append(closeImg);
+    likeArr.push(placeArr[restIndex]);
+
+    userRef.set(likeArr);
+	console.log("TCL: moveToLike -> likeArr", likeArr);
+    likedDiv();
+    restIndex++;
+    if (placeArr[restIndex] === undefined) {
+        $("#restaurant").empty().addClass("expand col m6 center-align").append("<button id='keep'> Keep searching?");
+        $("#keep").attr("class", "btn waves-effect waves-dark grey");
+    }
+    placeDetails(placeArr[restIndex]);
+}
+
+$(document).on("click", ".close", function () {
+    var id = $(this).val();
+    for (var i = 0; i < likeArr.length; i++) {
+        if (likeArr[i] === id) {
+            likeArr.splice(i, 1);
+        }
+    }
+    userRef.set(likeArr);
+	console.log("TCL: likeArr", likeArr);
 });
 
 
@@ -291,8 +306,7 @@ function callback(results, status) {
 }
 
 
-// *Location for current search results
-var placeArr = [];
+
 
 function createMarker(place) {
     var marker = new google.maps.Marker({
@@ -354,8 +368,9 @@ var address1;
 var address2;
 var address3;
 var address4;
-var likeArr = [];
 var dilikeArr = [];
+var restIndex = 0;
+
 
 
 function createMarker(place) {
@@ -371,7 +386,6 @@ function createMarker(place) {
 }
 
 
-var restIndex = 0;
 
 function displayRestaurant() {
 
@@ -389,7 +403,7 @@ function displayRestaurant() {
     if (website) {
         aTag.attr("href", website);
         aTag.attr("target", "_blank");
-        aTag.text("Website")
+        aTag.text("Website (Click me!)")
         // var web = $("<a href=" + website + ">Website</a>");
 
 
@@ -426,3 +440,18 @@ $(window).resize(function () {
         $("#dislike").removeClass("center-align").addClass("valign-wrapper");
     }
 });
+
+rootRef.once("value").then(function (snapshot) {
+    likeArr = snapshot.child("/users").val();
+    console.log("TCL: likeArr", likeArr);
+
+    for (var i = 0; i < likeArr.length; i++) {
+        var likeId = likeArr[i];
+		console.log("TCL: likeId", likeId);
+        placeDetails(likeId);
+        moveToLike();
+
+    }
+
+
+})

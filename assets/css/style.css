@@ -62,14 +62,27 @@ a {
 
 #dislike {
   background-color: #CF3429;
+  cursor: pointer;
 }
 
 #like {
   background-color: #48A320;
+  cursor: pointer;
 }
 
 #google {
   width: 200px;
   height: 50px;
   margin-top: 30px;
+  cursor: pointer;
 }
+
+.close {
+  height: 70px;
+  width: 70px;
+  top: 10px;
+  right: 10px;
+  position: absolute;
+  cursor: pointer;
+}
+
