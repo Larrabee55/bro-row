@@ -4,35 +4,40 @@
   margin-top: -5000px;
 }
 
+/* title css */
 #cuisine-me {
   color: #9155AF;
   font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
 }
 
+/* background image and font */
 body {
   background-image: url(../images/graniteback.jpeg);
   background-repeat: repeat;
   font-family: 'Ubuntu', sans-serif;
 }
 
-
+/* makes the like button 500px tall */
 #like {
   height: 500px;
   margin: auto;
   padding-left: 0px;
 }
 
+/* makes the dislike button 500px tall */
 #dislike {
   height: 500px;
   float: left;
   padding-left: 0px;
 }
 
+/* makes the cardImage class 300px high */
 .card-image {
   height: 300px;
   background-size: cover;
 }
 
+/* makes all img 300px high */
 img {
   height: 300px;
 }
@@ -42,6 +47,7 @@ img {
 
 }
 
+/* changes the like and dislike buttons when the screen is below 600px wide */
 @media only screen and (max-width: 600px) {
 
   #like,
@@ -51,6 +57,7 @@ img {
   }
 }
 
+/* changes the a tag color */
 a {
   color: black;
   padding-right: 30px;
@@ -85,4 +92,3 @@ a {
   position: absolute;
   cursor: pointer;
 }
-
