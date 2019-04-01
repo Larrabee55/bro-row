@@ -2,7 +2,7 @@
 
   // Initialize Firebase
 var config = {
-    apiKey: "KEY",
+    apiKey: "AIzaSyAI8r-ucedQnCXCVs6QfREqBVCV8JWzL7g",
     authDomain: "cuisineme-54bb8.firebaseapp.com",
     databaseURL: "https://cuisineme-54bb8.firebaseio.com",
     projectId: "cuisineme-54bb8",

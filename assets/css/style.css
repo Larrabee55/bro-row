@@ -19,11 +19,13 @@ body {
 #like {
   height: 500px;
   margin: auto;
+  padding-left: 0px;
 }
 
 #dislike {
   height: 500px;
   float: left;
+  padding-left: 0px;
 }
 
 .card-image {
@@ -51,7 +53,7 @@ img {
 
 a {
   color: black;
-  
+  padding-right: 30px;
 }
 
 #favorites {
