@@ -6,6 +6,8 @@ var placeArr = [];
 var likeArr = [];
 src = "https://maps.googleapis.com/maps/api/js?key=" + googleKey + "&libraries=places";
 
+$("#autocomplete").focus();
+
 // Initialize Firebase
 var config = {
     apiKey: "AIzaSyDpBqC7FPC6ZNRLlKhjgV-g7wuq1Df3x9I",
@@ -403,7 +405,7 @@ function displayRestaurant() {
     if (website) {
         aTag.attr("href", website);
         aTag.attr("target", "_blank");
-        aTag.text("Website (Click me!)")
+        aTag.text("Website (Click me)")
         // var web = $("<a href=" + website + ">Website</a>");
 
 
