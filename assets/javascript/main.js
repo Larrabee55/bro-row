@@ -1,4 +1,4 @@
-var googleKey = "AIzaSyBLJrE6KEfUSM16_1CCc0W_QFNSWDbkkx0";
+var googleKey = "";
 var lat;
 var long;
 src = "https://maps.googleapis.com/maps/api/js?key=" + googleKey + "&libraries=places";
@@ -81,13 +81,13 @@ var MARKER_PATH = 'https://developers.google.com/maps/documentation/javascript/i
 var hostnameRegexp = new RegExp('^https?://.+?/');
 
 var countries = {
-  'us': {
+    'us': {
     center: {
-      lat: 37.1,
-      lng: -95.7
+    lat: 37.1,
+    lng: -95.7
     },
     zoom: 3
-  },
+},
 };
 
 autocomplete = new google.maps.places.Autocomplete(
