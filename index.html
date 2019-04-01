@@ -22,7 +22,7 @@
 
 <body>
     <div class="container">
-        <!-- Title -->
+        <!-- Title Div using materialize to things in columns as well as the google login button -->
         <div class="row">
             <div class="col m2 s2 l2 lighten-1 center-align"></div>
             <div class="col m8 s8 l8 lighten-1 center-align">
@@ -33,12 +33,11 @@
             </div>
 
         </div>
-
+        <!-- this row is for submitting the city the user wants to look up -->
         <div class="row">
-            <!-- Zip Code enter -->
-
             <form>
                 <div class="col m4 s0"></div>
+                <!-- materialize input box -->
                 <div class="col m4 grey center-align">
                     <input id="autocomplete" type="text" placeholder="Enter a City"></input>
                 </div>
@@ -56,7 +55,7 @@
             <div class="col m1 s12 valign-wrapper left-align" id="dislike">
                 <i class="large material-icons left-align">close</i>
             </div>
-            <!-- resurant image and button -->
+            <!-- resurant image and content -->
             <div class="col m6 s12" id="restaurant">
 
                 <div class="card">
@@ -67,12 +66,12 @@
                     </div>
                 </div>
             </div>
-            <!-- llike button -->
+            <!-- like button -->
             <div class="col m1 s12 valign-wrapper left-align" id="like">
                 <i class="large material-icons left-align">check</i>
             </div>
         </div>
-        <!-- about cuisineme section -->
+        <!-- favorite div, when like button is pressed it appends them to this area -->
         <div id="favorites" class="row">
             <div class="col m12 s12 center-align">
                 <h2>Your Restaurants</h2>
