@@ -11,63 +11,59 @@ var config = {
     projectId: "cuisineme-1553137168583",
     storageBucket: "",
     messagingSenderId: "1031744844103"
-  };
-  var fire = firebase.initializeApp(config);
-  
-    
-    var form = document.querySelector('#dislike');
-    var roof = document.querySelector('#like');
-  //take user data from button click event to store into database
-  
-  // For listening to changes on the database
-   rootRef("userid").on("value", function (snapshot){
-    likeArr = snapshot.likeArr;
-  });
-  //   // Or pushing to the database
-  $(document).on("click", "#like", function () {
-    
-    console.log("TCL: likeArr", likeArr);
-  });
-    rootRef("/userid").push(likeArr);
-  // form.clickEvent("#dislike", (e) => {
-  //     rootRef.collection(userid()).push()
-  //     dislikes: form.value
-  // });
-  // roof.addEventListener("#like", (e) => {
-  //   rootRef.collection(userid()).push()
-  //   likes: roof.value
-  // });
-  
-  
-  var rootRef = firebase.database().ref()
-  console.log(rootRef);
-  
-  //likes to view in favorites page
-    rootRef.once("value").then(function(snapshot) {
-      var likes = snapshot.child().val()
-      console.log(snapshot.val());
-      var likedRow =document.getElementById("liked-row")
-      console.log(likedRow) 
-  })
-  // key/email of user to 
-  
-  var mainRef=rootRef.child('userId')
-  
-   $("#google").on("click", function () {
-    googleLogIn();
-   });
-  
-  
-  
-  
-  function googleLogIn(){
-    firebase.auth.signInWithPopup(firebase.provider).then(result => {
-      console.log(result);
-    });
-  }
-  //retrive data from log in 
-    googleLogIn();
-  
+};
+var fire = firebase.initializeApp(config);
+var db = firebase.database();
+
+
+var form = document.querySelector('#dislike');
+var roof = document.querySelector('#like');
+//take user data from button click event to store into database
+
+// For listening to changes on the database
+// rootRef("userid").on("value", function (snapshot) {
+//     likeArr = snapshot.likeArr;
+// });
+//   // Or pushing to the database
+// form.clickEvent("#dislike", (e) => {
+//     rootRef.collection(userid()).push()
+//     dislikes: form.value
+// });
+// roof.addEventListener("#like", (e) => {
+//   rootRef.collection(userid()).push()
+//   likes: roof.value
+// });
+
+
+var rootRef = firebase.database().ref()
+var userRef = db.ref("/users");
+
+//likes to view in favorites page
+rootRef.once("value").then(function (snapshot) {
+    var likes = snapshot.child().val()
+    console.log(snapshot.val());
+    var likedRow = document.getElementById("liked-row")
+    // console.log(likedRow)
+})
+// key/email of user to 
+
+var mainRef = rootRef.child('userId')
+
+// $("#google").on("click", function () {
+//     googleLogIn();
+// });
+
+
+
+
+// function googleLogIn() {
+//     firebase.auth.signInWithPopup(firebase.provider).then(result => {
+//         console.log(result);
+//     });
+// }
+//retrive data from log in 
+// googleLogIn();
+
 
 
 $(document).on("click", "#dislike", function () {
@@ -89,6 +85,7 @@ $(document).on("click", "#like", function () {
         $("#restaurant").children(".card").addClass("liked" + likeIndex);
         likeArr.push(placeArr[restIndex]);
 
+        userRef.set(likeArr);
         likedDiv();
         restIndex++;
         if (placeArr[restIndex] === undefined) {
