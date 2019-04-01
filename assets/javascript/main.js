@@ -88,7 +88,7 @@ $(document).on("click", "#like", function () {
 function moveToLike() {
 
     var closeImg = $("<img>").attr("src", "./assets/images/xbutton.png").addClass("close").val(placeArr[restIndex]);
-    $("#restaurant").children(".card").addClass("liked" + likeIndex).append(closeImg);
+    $("#restaurant").children(".card").addClass("liked" + likeIndex).prepend(closeImg);
     likeArr.push(placeArr[restIndex]);
 
     userRef.set(likeArr);
