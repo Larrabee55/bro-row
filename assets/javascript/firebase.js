@@ -7,19 +7,19 @@ var config = {
   storageBucket: "cuisineme-54bb8.appspot.com",
   messagingSenderId: "908231338492"
 };
-  var fire = firebase.initializeApp(config);
-  console.log(fire);
-  
-  var form = document.querySelector('#dislike');
-  var roof = document.querySelector('#like');
+var fire = firebase.initializeApp(config);
+console.log(fire);
+
+var form = document.querySelector('#dislike');
+var roof = document.querySelector('#like');
 //take user data from button click event to store into database
 
 // For listening to changes on the database
- rootRef("userid").on("value", function (snapshot){
+rootRef("userid").on("value", function (snapshot) {
   likeArr = snapshot.likeArr;
-  });
+});
 //   // Or pushing to the database
-  rootRef("userid").push(likeArr);
+rootRef("userid").push(likeArr);
 // form.clickEvent("#dislike", (e) => {
 //     rootRef.collection(userid()).push()
 //     dislikes: form.value
@@ -34,24 +34,27 @@ var rootRef = firebase.database().ref()
 console.log(rootRef);
 
 //likes to view in favorites page
-  rootRef.once("value").then(function(snapshot) {
-    var likes = snapshot.child().val()
-    console.log(snapshot.val());
-    var likedRow =document.getElementById("liked-row")
-    console.log(likedRow) 
+rootRef.once("value").then(function (snapshot) {
+  var likes = snapshot.child().val()
+  console.log(snapshot.val());
+  var likedRow = document.getElementById("liked-row")
+  console.log(likedRow)
 })
 // key/email of user to 
 
-var mainRef=rootRef.child('userId')
+var mainRef = rootRef.child('userId')
+
+$("#google").on("click", function () {
+  googleLogIn();
+});
 
 
 
 
-
-function googleLogIn(){
+function googleLogIn() {
   firebase.auth.signInWithPopup(firebase.provider).then(result => {
     console.log(result);
   });
 }
 //retrive data from log in 
-  googleLogIn()
+googleLogIn();
