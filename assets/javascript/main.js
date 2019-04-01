@@ -4,97 +4,119 @@ var long;
 src = "https://maps.googleapis.com/maps/api/js?key=" + googleKey + "&libraries=places";
 
 // Initialize Firebase
+
 var config = {
-    apiKey: "AIzaSyDpBqC7FPC6ZNRLlKhjgV-g7wuq1Df3x9I",
-    authDomain: "cuisineme-1553137168583.firebaseapp.com",
-    databaseURL: "https://cuisineme-1553137168583.firebaseio.com",
-    projectId: "cuisineme-1553137168583",
-    storageBucket: "",
-    messagingSenderId: "1031744844103"
+    apiKey: "AIzaSyAI8r-ucedQnCXCVs6QfREqBVCV8JWzL7g",
+    authDomain: "cuisineme-54bb8.firebaseapp.com",
+    databaseURL: "https://cuisineme-54bb8.firebaseio.com",
+    projectId: "cuisineme-54bb8",
+    storageBucket: "cuisineme-54bb8.appspot.com",
+    messagingSenderId: "908231338492"
 };
-var fire = firebase.initializeApp(config);
-var db = firebase.database();
+    var fire = firebase.initializeApp(config);
+    var db = firebase.database();
+    var rootRef = firebase.database().ref()
+    var mainRef = rootRef.child('userId')
+    var form = document.querySelector('#dislike');
+    var roof = document.querySelector('#like');
+    var likeArr = [];
+    var dilikeArr = [];
+  //take user data from button click event to store into database
+   
+  // For listening to changes on the database
+   rootRef("userid").on("value", function (snapshot){
+    likeArr = snapshot.likeArr;
+  });
+  //   // Or pushing to the database
+  $(document).on("click", "#like", function () {
+    
+    console.log("TCL: likeArr", likeArr);
+  });
+    rootRef("/userid").push(likeArr);
+console.log(rootRef);
 
-
-var form = document.querySelector('#dislike');
-var roof = document.querySelector('#like');
-//take user data from button click event to store into database
-
-// For listening to changes on the database
-// rootRef("userid").on("value", function (snapshot) {
-//     likeArr = snapshot.likeArr;
-// });
-//   // Or pushing to the database
-// form.clickEvent("#dislike", (e) => {
-//     rootRef.collection(userid()).push()
-//     dislikes: form.value
-// });
-// roof.addEventListener("#like", (e) => {
-//   rootRef.collection(userid()).push()
-//   likes: roof.value
-// });
-
-
-var rootRef = firebase.database().ref()
-var userRef = db.ref("/users");
-
-//likes to view in favorites page
-rootRef.once("value").then(function (snapshot) {
+  //likes to view in favorites page
+    rootRef.once("value").then(function(snapshot) {
     var likes = snapshot.child().val()
     console.log(snapshot.val());
-    var likedRow = document.getElementById("liked-row")
-    // console.log(likedRow)
+    var likedRow =document.getElementById("liked-row")
+    console.log(likedRow) 
 })
-// key/email of user to 
+ 
+  // key/email of user to 
+  
+ 
+  
+$("#google").on("click", function () {
+    googleLogIn();
+   });
 
-var mainRef = rootRef.child('userId')
+  function googleLogIn(){
+    firebase.auth.signInWithPopup(firebase.provider).then(result => {
+      console.log(result);
+    });
+  }
+ 
+  //retrive data from log in 
+    googleLogIn();
+  
+    $("#dislike").click(function () {
+        if (!noUsersCity) {
+            dislikeArr.push(name);
+            var newDislike = rootRef.child('userID/dislikes').push();
+            newDislike.set(name)
+            restIndex++;
+            if (placeArr[restIndex] === undefined) {
+                $("#restaurant").empty().addClass("expand").append("<button> Keep searching?");
+            }
+            placeDetails(placeArr[restIndex]);
+        }
+    });
+    $("#like").click(function () {
+        console.log(window, likeArr);
+        if (!noUsersCity) {
+            $("#restaurant").children(".card").addClass("liked" + likeIndex);
+            var newLike = rootRef.child('userID/likes').push();
+            newLike.set(name);
+            likedDiv();
+            restIndex++;
+            if (placeArr[restIndex] === undefined) {
+                $("#restaurant").empty().addClass("expand col m6 center-align").append("<button id='keep'> Keep searching?");
+                $("#keep").attr("class", "btn waves-effect waves-dark grey");
+            }
+            placeDetails(placeArr[restIndex]);
+        }
+    });
 
-// $("#google").on("click", function () {
-//     googleLogIn();
+// $(document).on("click", "#dislike", function () {
+//     if (!noUsersCity) {
+//         dilikeArr.push(name);
+//         restIndex++;
+
+//         if (placeArr[restIndex] === undefined) {
+//             $("#restaurant").empty().addClass("expand").append("<button> Keep searching?");
+//         }
+//         placeDetails(placeArr[restIndex]);
+
+//     }
 // });
+// $(document).on("click", "#like", function () {
 
+//     if (!noUsersCity) {
 
+//         $("#restaurant").children(".card").addClass("liked" + likeIndex);
+//         likeArr.push(placeArr[restIndex]);
 
-
-// function googleLogIn() {
-//     firebase.auth.signInWithPopup(firebase.provider).then(result => {
-//         console.log(result);
-//     });
-// }
-//retrive data from log in 
-// googleLogIn();
-
-
-
-$(document).on("click", "#dislike", function () {
-    if (!noUsersCity) {
-        dilikeArr.push(name);
-        restIndex++;
-
-        if (placeArr[restIndex] === undefined) {
-            $("#restaurant").empty().addClass("expand").append("<button> Keep searching?");
-        }
-        placeDetails(placeArr[restIndex]);
-
-    }
-});
-$(document).on("click", "#like", function () {
-
-    if (!noUsersCity) {
-
-        $("#restaurant").children(".card").addClass("liked" + likeIndex);
-        likeArr.push(placeArr[restIndex]);
-
-        userRef.set(likeArr);
-        likedDiv();
-        restIndex++;
-        if (placeArr[restIndex] === undefined) {
-            $("#restaurant").empty().addClass("expand col m6 center-align").append("<button id='keep'> Keep searching?");
-            $("#keep").attr("class", "btn waves-effect waves-dark grey");
-        }
-        placeDetails(placeArr[restIndex]);
-    }
-});
+//         userRef.set(likeArr);
+//         likedDiv();
+//         restIndex++;
+//         if (placeArr[restIndex] === undefined) {
+//             $("#restaurant").empty().addClass("expand col m6 center-align").append("<button id='keep'> Keep searching?");
+//             $("#keep").attr("class", "btn waves-effect waves-dark grey");
+//         }
+//         placeDetails(placeArr[restIndex]);
+//     }
+// });
 
 
 // * On location input run API commands
@@ -304,7 +326,6 @@ function createMarker(place) {
 
 }
 
-
 // *Get place details
 function placeDetails(place) {
     var request = {
@@ -354,8 +375,7 @@ var address1;
 var address2;
 var address3;
 var address4;
-var likeArr = [];
-var dilikeArr = [];
+
 
 
 function createMarker(place) {
