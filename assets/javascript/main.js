@@ -14,7 +14,7 @@ var config = {
   authDomain: "cuisineme-1553137168583.firebaseapp.com",
   databaseURL: "https://cuisineme-1553137168583.firebaseio.com",
   projectId: "cuisineme-1553137168583",
-  storageBucket: "",
+  storageBucket: "cuisineme-1553137168583.appspot.com",
   messagingSenderId: "1031744844103"
 };
 var fire = firebase.initializeApp(config);
@@ -455,7 +455,7 @@ rootRef.once("value").then(function (snapshot) {
     console.log("TCL: likeId", likeId);
     placeDetails(likeId);
     moveToLike();
-    
+
   }
 
 
