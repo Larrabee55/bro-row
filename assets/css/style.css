@@ -17,7 +17,10 @@ body {
   font-family: 'Ubuntu', sans-serif;
 }
 
-/* makes the like button 500px tall */
+#restaurant {
+  margin-top: -7px;
+}
+
 #like {
   height: 500px;
   margin: auto;
@@ -35,16 +38,27 @@ body {
 .card-image {
   height: 300px;
   background-size: cover;
+  background-color: #9C260B;
+  z-index: 2;
 }
 
 /* makes all img 300px high */
 img {
-  height: 300px;
+  max-height: 300px;
 }
 
 .card .card-content {
   height: 200px;
+  background-color: #9C260B;
+}
 
+.grid-item {
+  position: relative !important;
+}
+
+.card {
+  z-index: 999;
+  position: initial;
 }
 
 /* changes the like and dislike buttons when the screen is below 600px wide */
@@ -65,6 +79,17 @@ a {
 
 #favorites {
   background-color: #2BC6DA;
+  z-index: -4;
+  position: relative;
+}
+
+#liked-row {
+  z-index: -5;
+
+}
+
+#liked-row .card-image {
+  height: 200px;
 }
 
 #dislike {
@@ -87,8 +112,9 @@ a {
 .close {
   height: 70px;
   width: 70px;
-  top: 10px;
-  right: 10px;
+  top: 5px;
+  right: 5px;
   position: absolute;
   cursor: pointer;
+  z-index: 9999;
 }

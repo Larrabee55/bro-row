@@ -6,6 +6,8 @@ var placeArr = [];
 var likeArr = [];
 src = "https://maps.googleapis.com/maps/api/js?key=" + googleKey + "&libraries=places";
 
+$("#autocomplete").focus();
+
 // Initialize Firebase
 var config = {
   apiKey: "AIzaSyDpBqC7FPC6ZNRLlKhjgV-g7wuq1Df3x9I",
@@ -87,20 +89,19 @@ $(document).on("click", "#like", function () {
 
 function moveToLike() {
 
-  var closeImg = $("<img>").attr("src", "./assets/images/xbutton.png").addClass("close").val(placeArr[restIndex]);
-  $("#restaurant").children(".card").addClass("liked" + likeIndex).append(closeImg);
-  likeArr.push(placeArr[restIndex]);
+    var closeImg = $("<img>").attr("src", "./assets/images/xbutton.png").addClass("close").val(placeArr[restIndex]);
+    $("#restaurant").children(".card").addClass("liked" + likeIndex).prepend(closeImg);
+    likeArr.push(placeArr[restIndex]);
 
-  userRef.set(likeArr);
-  console.log("TCL: moveToLike -> likeArr", likeArr);
-  likedDiv();
-  restIndex++;
-  if (placeArr[restIndex] === undefined) {
-    // creates a materialize button for when it is out of results
-    $("#restaurant").empty().addClass("expand col m6 center-align").append("<button id='keep'> Keep searching?");
-    $("#keep").attr("class", "btn waves-effect waves-dark grey");
-  }
-  placeDetails(placeArr[restIndex]);
+    userRef.set(likeArr);
+	console.log("TCL: moveToLike -> likeArr", likeArr);
+    likedDiv();
+    restIndex++;
+    if (placeArr[restIndex] === undefined) {
+        $("#restaurant").empty().addClass("expand col m6 center-align").append("<button id='keep'> Keep searching?");
+        $("#keep").attr("class", "btn waves-effect waves-dark grey");
+    }
+    placeDetails(placeArr[restIndex]);
 }
 
 $(document).on("click", ".close", function () {
@@ -402,12 +403,12 @@ function displayRestaurant() {
 
   // todo would like for website to be an <a href> if possible
 
-  var aTag = $("<a>")
-  if (website) {
-    aTag.attr("href", website);
-    aTag.attr("target", "_blank");
-    aTag.text("Website (Click me!)")
-    // var web = $("<a href=" + website + ">Website</a>");
+    var aTag = $("<a>")
+    if (website) {
+        aTag.attr("href", website);
+        aTag.attr("target", "_blank");
+        aTag.text("Website (Click me)")
+        // var web = $("<a href=" + website + ">Website</a>");
 
 
   }
@@ -454,7 +455,7 @@ rootRef.once("value").then(function (snapshot) {
     console.log("TCL: likeId", likeId);
     placeDetails(likeId);
     moveToLike();
-
+    
   }
 
 
