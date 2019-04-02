@@ -12,77 +12,43 @@ var config = {
   authDomain: "cuisineme-1553137168583.firebaseapp.com",
   databaseURL: "https://cuisineme-1553137168583.firebaseio.com",
   projectId: "cuisineme-1553137168583",
-  storageBucket: "",
+  storageBucket: "cuisineme-54bb8.appspot.com",
   messagingSenderId: "1031744844103"
 };
 var fire = firebase.initializeApp(config);
 var db = firebase.database();
-
-
-var form = document.querySelector('#dislike');
-var roof = document.querySelector('#like');
-//take user data from button click event to store into database
-
-// For listening to changes on the database
-// rootRef("userid").on("value", function (snapshot) {
-//     likeArr = snapshot.likeArr;
-// });
-//   // Or pushing to the database
-// form.clickEvent("#dislike", (e) => {
-//     rootRef.collection(userid()).push()
-//     dislikes: form.value
-// });
-// roof.addEventListener("#like", (e) => {
-//   rootRef.collection(userid()).push()
-//   likes: roof.value
-// });
-
-
 var rootRef = firebase.database().ref()
 var userRef = db.ref("/users");
-
-
-// key/email of user to 
-
 var mainRef = rootRef.child('userId')
-
-// $("#google").on("click", function () {
-//     googleLogIn();
-// });
-
-
-
-
-// function googleLogIn() {
-//     firebase.auth.signInWithPopup(firebase.provider).then(result => {
-//         console.log(result);
-//     });
-// }
-//retrive data from log in 
-// googleLogIn();
-
+var form = document.querySelector('#dislike');
+var roof = document.querySelector('#like');
 
 $(document).on("click", "#dislike", function () {
-  if (!noUsersCity) {
+if (!noUsersCity) {
     dilikeArr.push(name);
+    var newDislike = rootRef.child('userID/dislikes').push();
+    newDislike.set(name)
     restIndex++;
 
 
     if (placeArr[restIndex] === undefined) {
       // creates a materialize button for when it is out of results
-      $("#restaurant").empty().addClass("expand col m6 center-align").append("<button id='keep'> Keep searching?");
-      $("#keep").attr("class", "btn waves-effect waves-dark grey");
+    $("#restaurant").empty().addClass("expand col m6 center-align").append("<button id='keep'> Keep searching?");
+    $("#keep").attr("class", "btn waves-effect waves-dark grey");
+    var newLike = rootRef.child('userID/likes').push();
+    newLike.set(name);
+    likedDiv();
     }
     placeDetails(placeArr[restIndex]);
 
-  }
+}
 });
 $(document).on("click", "#like", function () {
 
-  if (!noUsersCity) {
+if (!noUsersCity) {
 
     moveToLike();
-  }
+}
 });
 
 function moveToLike() {
