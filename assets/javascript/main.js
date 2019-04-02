@@ -455,7 +455,7 @@ rootRef.once("value").then(function (snapshot) {
     console.log("TCL: likeId", likeId);
     placeDetails(likeId);
     moveToLike();
-
+    
   }
 
 

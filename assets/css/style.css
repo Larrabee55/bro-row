@@ -39,7 +39,7 @@ body {
   height: 300px;
   background-size: cover;
   background-color: #9C260B;
-  z-index: -1;
+  z-index: 2;
 }
 
 /* makes all img 300px high */
@@ -52,8 +52,13 @@ img {
   background-color: #9C260B;
 }
 
+.grid-item {
+  position: relative !important;
+}
+
 .card {
-  z-index: -3;
+  z-index: 999;
+  position: initial;
 }
 
 /* changes the like and dislike buttons when the screen is below 600px wide */
@@ -111,5 +116,5 @@ a {
   right: 5px;
   position: absolute;
   cursor: pointer;
-  z-index: 2;
+  z-index: 9999;
 }
